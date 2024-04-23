@@ -20,6 +20,7 @@ namespace uzemanyag_elszamolas
     /// </summary>
     public partial class MainWindow : Window
     {
+        dbClass db = new dbClass("localhost", "root", "", "uzemenyag_elszamolas");
         public MainWindow()
         {
             InitializeComponent();

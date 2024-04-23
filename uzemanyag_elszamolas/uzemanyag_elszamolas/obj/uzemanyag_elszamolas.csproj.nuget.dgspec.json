@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ASZAF\\uzemanyagos\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj": {}
+    "D:\\ASZAF\\uzemanyagos\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj": {}
   },
   "projects": {
-    "D:\\ASZAF\\uzemanyagos\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj": {
+    "D:\\ASZAF\\uzemanyagos\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ASZAF\\uzemanyagos\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
+        "projectUniqueName": "D:\\ASZAF\\uzemanyagos\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
         "projectName": "uzemanyag_elszamolas",
-        "projectPath": "D:\\ASZAF\\uzemanyagos\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
+        "projectPath": "D:\\ASZAF\\uzemanyagos\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
         "packagesPath": "C:\\Users\\csokaandras\\.nuget\\packages\\",
-        "outputPath": "D:\\ASZAF\\uzemanyagos\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\obj\\",
+        "outputPath": "D:\\ASZAF\\uzemanyagos\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\csokaandras\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,6 +39,12 @@
       "frameworks": {
         "net5.0-windows7.0": {
           "targetAlias": "net5.0-windows",
+          "dependencies": {
+            "MySql.Data": {
+              "target": "Package",
+              "version": "[8.3.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

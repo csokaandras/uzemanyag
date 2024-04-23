@@ -5,8 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:uzemanyag_elszamolas"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Üzemanyag elszámolás" Height="450" Width="800">
     <Grid>
+        <TabControl>
+            <TabItem Header="Login">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Routes">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Cars">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Fuel price">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Statistic">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
 
     </Grid>
 </Window>
