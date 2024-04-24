@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 23. 13:42
+-- Létrehozás ideje: 2024. Ápr 24. 08:47
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -77,6 +77,13 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
+-- A tábla adatainak kiíratása `users`
+--
+
+INSERT INTO `users` (`ID`, `name`, `pass`, `perm`) VALUES
+(1, 'admin', 'admin', 0);
+
+--
 -- Indexek a kiírt táblákhoz
 --
 
@@ -134,7 +141,7 @@ ALTER TABLE `routes`
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Megkötések a kiírt táblákhoz
