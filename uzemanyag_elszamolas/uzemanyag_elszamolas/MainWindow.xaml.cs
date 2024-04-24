@@ -25,5 +25,22 @@ namespace uzemanyag_elszamolas
         {
             InitializeComponent();
         }
+
+        private void to_login_btn_Click(object sender, RoutedEventArgs e)
+        {
+            reg_grid.Visibility = Visibility.Hidden;
+            login_grid.Visibility = Visibility.Visible;
+            reg_name_tbox.Text = null;
+            reg_passwd_tbox.Clear();
+            reg_confirm_tbox.Clear();
+        }
+
+        private void to_reg_btn_Click(object sender, RoutedEventArgs e)
+        {
+            reg_grid.Visibility = Visibility.Visible;
+            login_grid.Visibility = Visibility.Hidden;
+            login_name_tbox.Text = null;
+            login_passwd_tbox.Clear();
+        }
     }
 }

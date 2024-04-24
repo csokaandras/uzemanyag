@@ -8,8 +8,31 @@
         Title="Üzemanyag elszámolás" Height="450" Width="800">
     <Grid>
         <TabControl>
-            <TabItem Header="Login">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem Header="User">
+                <Grid Background="#FFE5E5E5">
+
+                    <Grid x:Name="login_grid" Height="193" VerticalAlignment="Center" HorizontalAlignment="Center" Width="287" Visibility="Visible">
+                        <PasswordBox x:Name="login_passwd_tbox" HorizontalAlignment="Left" Margin="137,0,0,0" VerticalAlignment="Center" Width="120"/>
+                        <TextBox x:Name="login_name_tbox" Margin="137,65,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" Width="120" Height="18" VerticalAlignment="Top"/>
+                        <Label Content="Felhasználónév" HorizontalAlignment="Left" Margin="42,60,0,0" VerticalAlignment="Top" Height="28"/>
+                        <Label Content="Jelszó" HorizontalAlignment="Left" Margin="91,0,0,0" VerticalAlignment="Center" Height="28"/>
+                        <Button x:Name="login_btn" Content="Bejelentkezés" HorizontalAlignment="Left" Margin="181,111,0,0" VerticalAlignment="Top"/>
+                        <Button x:Name="to_reg_btn" Content="Még nincs fiókom" HorizontalAlignment="Left" Margin="43,111,0,0" VerticalAlignment="Top" Click="to_reg_btn_Click"/>
+                        <Label Content="Bejelentkezés" HorizontalAlignment="Center" Margin="0,17,0,0" VerticalAlignment="Top" Height="38" FontWeight="Bold" FontSize="18"/>
+                    </Grid>
+                    <Grid x:Name="reg_grid" Height="193" VerticalAlignment="Center" HorizontalAlignment="Center" Width="287" Visibility="Hidden">
+                        <PasswordBox x:Name="reg_passwd_tbox" HorizontalAlignment="Left" Margin="137,0,0,0" VerticalAlignment="Center" Width="120"/>
+                        <TextBox x:Name="reg_name_tbox" Margin="137,65,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" Width="120" Height="18" VerticalAlignment="Top"/>
+                        <Label Content="Felhasználónév" HorizontalAlignment="Left" Margin="42,60,0,0" VerticalAlignment="Top" Height="28"/>
+                        <Label Content="Jelszó" HorizontalAlignment="Left" Margin="91,0,0,0" VerticalAlignment="Center" Height="28"/>
+                        <Button x:Name="reg_btn" Content="Regisztráció" HorizontalAlignment="Left" Margin="190,138,0,0" VerticalAlignment="Top"/>
+                        <Button x:Name="to_login_btn" Content="Már van fiókom" HorizontalAlignment="Left" Margin="43,138,0,0" VerticalAlignment="Top" Click="to_login_btn_Click"/>
+                        <Label Content="Regisztráció" HorizontalAlignment="Center" Margin="0,17,0,0" VerticalAlignment="Top" Height="38" FontWeight="Bold" FontSize="18"/>
+                        <PasswordBox x:Name="reg_confirm_tbox" HorizontalAlignment="Left" Margin="137,110,0,0" VerticalAlignment="Top" Width="120"/>
+                        <Label Content="Jelszó ismét" HorizontalAlignment="Left" Margin="57,105,0,0" VerticalAlignment="Top" Height="28"/>
+                    </Grid>
+
+                </Grid>
             </TabItem>
             <TabItem Header="Routes">
                 <Grid Background="#FFE5E5E5"/>
