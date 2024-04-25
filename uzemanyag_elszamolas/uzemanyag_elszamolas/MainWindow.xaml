@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:uzemanyag_elszamolas"
+        
         mc:Ignorable="d"
         Title="Üzemanyag elszámolás" Height="450" Width="800">
     <Grid>
@@ -31,22 +31,25 @@
                         <PasswordBox x:Name="reg_confirm_tbox" HorizontalAlignment="Left" Margin="137,110,0,0" VerticalAlignment="Top" Width="120" TabIndex="3"/>
                         <Label Content="Jelszó ismét" HorizontalAlignment="Left" Margin="57,105,0,0" VerticalAlignment="Top" Height="28"/>
                     </Grid>
+                    <Grid x:Name="user_grind" Height="193" VerticalAlignment="Center" HorizontalAlignment="Center" Width="287" Visibility="Hidden">
+                        <Button x:Name="logout" Content="Kijelentkezés" HorizontalAlignment="Center" Margin="0,60,0,0" VerticalAlignment="Top" TabIndex="5" Click="logout_Click"/>
+                        <Label x:Name="user_name_label" Content="Username" HorizontalAlignment="Center" Margin="0,17,0,0" VerticalAlignment="Top" Height="38" FontWeight="Bold" FontSize="18"/>
+                    </Grid>
 
                 </Grid>
             </TabItem>
-            <TabItem Header="Routes" TabIndex="2">
+            <TabItem x:Name="routes_tab" Header="Routes" TabIndex="2">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="Cars" TabIndex="3">
+            <TabItem x:Name="statistic_tab" Header="Statistic" TabIndex="5">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="Fuel price" TabIndex="4">
+            <TabItem x:Name="cars_tab" Header="Cars" TabIndex="3">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="Statistic" TabIndex="5">
+            <TabItem x:Name="fuel_tab" Header="Fuel price" TabIndex="4">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem x:Name="username_field" Header="Username" IsEnabled="False" Visibility="Hidden" MouseRightButtonDown="username_field_MouseRightButtonDown"/>
         </TabControl>
 
     </Grid>

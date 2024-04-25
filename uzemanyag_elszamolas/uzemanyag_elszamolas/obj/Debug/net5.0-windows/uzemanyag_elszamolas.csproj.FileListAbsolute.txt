@@ -27,7 +27,6 @@ D:\ASZAF\uzemanyagos\uzemanyag\uzemanyag_elszamolas\uzemanyag_elszamolas\obj\Deb
 D:\ASZAF\uzemanyagos\uzemanyag\uzemanyag_elszamolas\uzemanyag_elszamolas\obj\Debug\net5.0-windows\MainWindow.g.cs
 D:\ASZAF\uzemanyagos\uzemanyag\uzemanyag_elszamolas\uzemanyag_elszamolas\obj\Debug\net5.0-windows\App.g.cs
 D:\ASZAF\uzemanyagos\uzemanyag\uzemanyag_elszamolas\uzemanyag_elszamolas\obj\Debug\net5.0-windows\uzemanyag_elszamolas_MarkupCompile.cache
-D:\ASZAF\uzemanyagos\uzemanyag\uzemanyag_elszamolas\uzemanyag_elszamolas\obj\Debug\net5.0-windows\uzemanyag_elszamolas_MarkupCompile.lref
 D:\ASZAF\uzemanyagos\uzemanyag\uzemanyag_elszamolas\uzemanyag_elszamolas\obj\Debug\net5.0-windows\MainWindow.baml
 D:\ASZAF\uzemanyagos\uzemanyag\uzemanyag_elszamolas\uzemanyag_elszamolas\obj\Debug\net5.0-windows\uzemanyag_elszamolas.g.resources
 D:\ASZAF\uzemanyagos\uzemanyag\uzemanyag_elszamolas\uzemanyag_elszamolas\obj\Debug\net5.0-windows\uzemanyag_elszamolas.GeneratedMSBuildEditorConfig.editorconfig

@@ -26,6 +26,12 @@ namespace uzemanyag_elszamolas
         public MainWindow()
         {
             InitializeComponent();
+
+            statistic_tab.Visibility = Visibility.Hidden;
+            fuel_tab.Visibility = Visibility.Hidden;
+            cars_tab.Visibility = Visibility.Hidden;
+            routes_tab.Visibility = Visibility.Hidden;
+
         }
 
         private void to_login_btn_Click(object sender, RoutedEventArgs e)
@@ -58,63 +64,102 @@ namespace uzemanyag_elszamolas
 
                 if (login_passwd_tbox.Password == pass)
                 {
-                    username_field.Visibility = Visibility.Visible;
+                    user_grind.Visibility = Visibility.Visible;
+                    login_grid.Visibility = Visibility.Hidden;
+
+                    login_name_tbox.Text = null;
+                    login_passwd_tbox.Password = null;
+
                     logged_user = new UsersClass(id, name, pass, perm);
 
-                    username_field.Header = logged_user.Name;
+                    if (logged_user.Perm == 0)
+                    {
+                        fuel_tab.Visibility = Visibility.Visible;
+                        cars_tab.Visibility = Visibility.Visible;
+                    }
+                    statistic_tab.Visibility = Visibility.Visible;
+                    routes_tab.Visibility = Visibility.Visible;
+
+                    user_name_label.Content = logged_user.Name;
+
+
                 }
                 else
                 {
-                    MessageBox.Show("Nem megfelelő jelszó!");
+                    MessageBox.Show("Nem megfelelő jelszó!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    login_passwd_tbox.Password = null;
                 }
             }
             else
             {
-                MessageBox.Show("Nincsen iyen felhasználó!");
+                MessageBox.Show("Nincsen iyen felhasználó!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                login_name_tbox.Text = null;
+                login_passwd_tbox.Password = null;
             }
         }
 
         private void reg_btn_Click(object sender, RoutedEventArgs e)
         {
-            db.select("users", "name", reg_name_tbox.Text);
-
-            if (db.results.Read())
+            if (reg_passwd_tbox.Password != "" && reg_name_tbox.Text != "" && reg_confirm_tbox.Password != "")
             {
-                string name = db.results.GetString("name");
+                db.select("users", "name", reg_name_tbox.Text);
 
-                if (reg_name_tbox.Text == name)
+                if (db.results.Read())
                 {
-                    MessageBox.Show("Ez a felhasználó név már regisztrálva van!");
-                    reg_name_tbox.Text = null;
-                    reg_passwd_tbox.Clear();
-                    reg_confirm_tbox.Clear();
+                    string name = db.results.GetString("name");
+
+                    if (reg_name_tbox.Text == name)
+                    {
+                        MessageBox.Show("Ez a felhasználó név már regisztrálva van!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                        reg_name_tbox.Text = null;
+                        reg_passwd_tbox.Clear();
+                        reg_confirm_tbox.Clear();
+                    }
+                }
+                else
+                {
+                    if (reg_passwd_tbox.Password != reg_confirm_tbox.Password)
+                    {
+                        MessageBox.Show("Nem egyezik a két jelszó!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        string[] fields = { "name", "pass", "perm" };
+                        string[] values = { reg_name_tbox.Text, reg_passwd_tbox.Password, "1" };
+                        db.insert("users", fields, values);
+                        MessageBox.Show("Sikeres a regisztráció, jelentkezzen be!", "Siker!", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        reg_grid.Visibility = Visibility.Hidden;
+                        login_grid.Visibility = Visibility.Visible;
+                        reg_name_tbox.Text = null;
+                        reg_passwd_tbox.Clear();
+                        reg_confirm_tbox.Clear();
+                    }
                 }
             }
             else
             {
-                if (reg_passwd_tbox.Password != reg_confirm_tbox.Password)
-                {
-                    MessageBox.Show("Nem egyezik a két jelszó!");
-                }
-                else
-                {
-                    string[] fields = { "name", "pass", "perm" };
-                    string[] values = { reg_name_tbox.Text, reg_passwd_tbox.Password , "1"};
-                    db.insert("users", fields, values);
-                    MessageBox.Show("Sikeres a regisztráció, jelentkezzen be!");
-
-                    reg_grid.Visibility = Visibility.Hidden;
-                    login_grid.Visibility = Visibility.Visible;
-                    reg_name_tbox.Text = null;
-                    reg_passwd_tbox.Clear();
-                    reg_confirm_tbox.Clear();
-                }
+                MessageBox.Show("Nem adott meg adatokat!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private void username_field_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        private void logout_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult Result = MessageBox.Show("This Seat is Available, Would you like to pick it?", "Would you like this seat?", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Biztos ki szeretne jelentkezni?", "Kijelentkezés", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                login_grid.Visibility = Visibility.Visible;
+                user_grind.Visibility = Visibility.Hidden;
+
+                login_grid.Visibility = Visibility.Visible;
+
+                statistic_tab.Visibility = Visibility.Hidden;
+                fuel_tab.Visibility = Visibility.Hidden;
+                cars_tab.Visibility = Visibility.Hidden;
+                routes_tab.Visibility = Visibility.Hidden;
+
+            }
         }
     }
 }
