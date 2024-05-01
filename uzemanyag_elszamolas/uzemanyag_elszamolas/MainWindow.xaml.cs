@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +24,25 @@ namespace uzemanyag_elszamolas
 
         UsersClass logged_user = null;
         dbClass db = new dbClass("localhost", "root", "", "uzemenyag_elszamolas");
+        List<CarDataItem> cars_list = new List<CarDataItem>();
+        List<FuelDataItem> fuels_list = new List<FuelDataItem>();
+
+        internal class CarDataItem
+        {
+            public int ID { get; set; }
+            public string Type { get; set; }
+            public string License { get; set; }
+            public double Consumption { get; set; }
+            public FuelDataItem FuelID { get; set; }
+        }
+
+        internal class FuelDataItem
+        {
+            public int ID { get; set; }
+            public string Type { get; set; }
+            public int Price { get; set; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,6 +52,39 @@ namespace uzemanyag_elszamolas
             cars_tab.Visibility = Visibility.Hidden;
             routes_tab.Visibility = Visibility.Hidden;
 
+        }
+
+        private void SelectCarsDatas()
+        {
+            SelectFuelsDatas();
+            cars_list.Clear();
+            db.selectAll("cars");
+            while (db.results.Read())
+            {
+                CarDataItem new_car = new CarDataItem();
+                new_car.ID = db.results.GetInt32("ID");
+                new_car.Type = db.results.GetString("type");
+                new_car.License = db.results.GetString("license");
+                new_car.Consumption = Math.Round(db.results.GetFloat("consumption"), 2);
+                new_car.FuelID = fuels_list.Find(x => x.ID == db.results.GetInt32("fuelID"));
+
+                cars_list.Add(new_car);
+            }
+        }
+
+        private void SelectFuelsDatas()
+        {
+            fuels_list.Clear();
+            db.selectAll("fuels");
+            while (db.results.Read())
+            {
+                FuelDataItem new_fuel = new FuelDataItem();
+                new_fuel.ID = db.results.GetInt32("ID");
+                new_fuel.Type = db.results.GetString("type");
+                new_fuel.Price = db.results.GetInt32("price");
+
+                fuels_list.Add(new_fuel);
+            }
         }
 
         private void to_login_btn_Click(object sender, RoutedEventArgs e)
@@ -160,6 +213,73 @@ namespace uzemanyag_elszamolas
                 routes_tab.Visibility = Visibility.Hidden;
 
             }
+        }
+
+        private void updateCarsGrid()
+        {
+            SelectCarsDatas();
+            cars_datagrid.Items.Clear();
+
+            foreach (CarDataItem item in cars_list)
+            {
+                cars_datagrid.Items.Add(item);
+            }
+        }
+
+        private void cars_tab_Loaded(object sender, RoutedEventArgs e)
+        {
+            updateCarsGrid();
+        }
+
+        private void car_add_btn_Click(object sender, RoutedEventArgs e)
+        {
+            Regex rgx = new Regex(@"^\d+(\.\d+)*$");
+
+            if ((benzin_rdbtn.IsChecked == true || diesel_rdbtn.IsChecked == true)
+                && type_tbox.Text != null
+                && license_tbox.Text != null
+                && consumption_tbox.Text != null
+                && type_tbox.Text != ""
+                && license_tbox.Text != ""
+                && consumption_tbox.Text != "")
+            {
+                if (rgx.IsMatch(consumption_tbox.Text))
+                {
+                    string fuel_id = "0";
+                    if (benzin_rdbtn.IsChecked == true)
+                    {
+                        fuel_id = "1";
+                    }
+                    else
+                    {
+                        fuel_id = "2";
+                    }
+
+                    string[] fields = { "type", "license", "consumption", "fuelID" };
+                    string[] values = { type_tbox.Text, license_tbox.Text, consumption_tbox.Text, fuel_id };
+
+                    db.insert("cars", fields, values);
+                    
+                    type_tbox.Text = null;
+                    license_tbox.Text = null;
+                    consumption_tbox.Text = null;
+                    benzin_rdbtn.IsChecked = false;
+                    diesel_rdbtn.IsChecked = false;
+                    fuel_id = "0";
+
+                    updateCarsGrid();
+                }
+                else
+                {
+                    MessageBox.Show("Nem megfelelő a fogyasztás formátuma!\nKérem ponttal válassza el.", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nem adott meg minden szükséges adatot!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            
         }
     }
 }

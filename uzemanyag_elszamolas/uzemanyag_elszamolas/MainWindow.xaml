@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         
         mc:Ignorable="d"
-        Title="Üzemanyag elszámolás" Height="450" Width="800">
+        Title="Üzemanyag elszámolás" Height="419" Width="737">
     <Grid>
         <TabControl HorizontalAlignment="Stretch" FlowDirection="LeftToRight">
             <TabItem Header="User" TabIndex="1">
@@ -20,7 +20,7 @@
                         <Button x:Name="to_reg_btn" Content="Még nincs fiókom" HorizontalAlignment="Left" Margin="43,111,0,0" VerticalAlignment="Top" Click="to_reg_btn_Click" TabIndex="4"/>
                         <Label Content="Bejelentkezés" HorizontalAlignment="Center" Margin="0,17,0,138" FontWeight="Bold" FontSize="18"/>
                     </Grid>
-                    <Grid x:Name="reg_grid" Height="193" VerticalAlignment="Center" HorizontalAlignment="Center" Width="287" Visibility="Visible">
+                    <Grid x:Name="reg_grid" Height="193" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="287" Visibility="Visible">
                         <PasswordBox x:Name="reg_passwd_tbox" HorizontalAlignment="Left" Margin="137,0,0,0" VerticalAlignment="Center" Width="120" TabIndex="2"/>
                         <TextBox x:Name="reg_name_tbox" Margin="137,65,0,0" TextWrapping="Wrap" HorizontalAlignment="Left" Width="120" Height="18" VerticalAlignment="Top" TabIndex="1"/>
                         <Label Content="Felhasználónév" HorizontalAlignment="Left" Margin="42,60,0,0" VerticalAlignment="Top" Height="28"/>
@@ -44,8 +44,33 @@
             <TabItem x:Name="statistic_tab" Header="Statistic" TabIndex="5">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem x:Name="cars_tab" Header="Cars" TabIndex="3">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem x:Name="cars_tab" Header="Cars" TabIndex="3" Loaded="cars_tab_Loaded">
+                <Grid Background="#FFE5E5E5">
+
+                    <GroupBox Header="Jármű felvétele" HorizontalAlignment="Left" Height="176" Margin="10,10,0,0" VerticalAlignment="Top" Width="279" FontWeight="Normal">
+                        <Grid Margin="0,0,-2,0" Height="Auto">
+                            <Label Content="Rendszám" HorizontalAlignment="Left" Margin="61,13,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Típus" HorizontalAlignment="Left" Margin="87,36,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Üzemanyag típus" HorizontalAlignment="Left" Margin="24,90,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Fogyasztás (l/10km)" HorizontalAlignment="Left" Margin="10,59,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="license_tbox" HorizontalAlignment="Left" Margin="130,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                            <TextBox x:Name="consumption_tbox" HorizontalAlignment="Left" Margin="130,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                            <TextBox x:Name="type_tbox" HorizontalAlignment="Left" Margin="130,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                            <RadioButton x:Name="benzin_rdbtn" Content="Benzin" HorizontalAlignment="Left" Margin="130,86,0,0" VerticalAlignment="Top"/>
+                            <RadioButton x:Name="diesel_rdbtn" Content="Diesel" HorizontalAlignment="Left" Margin="130,106,0,0" VerticalAlignment="Top"/>
+                            <Button x:Name="car_add_btn" Content="Felvétel" HorizontalAlignment="Center" Margin="0,126,0,0" VerticalAlignment="Top" Width="99" FontWeight="Normal" Click="car_add_btn_Click"/>
+                        </Grid>
+                    </GroupBox>
+                    <DataGrid x:Name="cars_datagrid" Margin="294,10,10,10" ColumnWidth="*" HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Width="40" MinWidth="40" MaxWidth="40" Binding="{ Binding ID }"/>
+                            <DataGridTextColumn Header="Típus" MinWidth="70"  Binding="{ Binding Type }"/>
+                            <DataGridTextColumn Header="Rendszám" MinWidth="70" MaxWidth="70" Width="70"  Binding="{ Binding License }"/>
+                            <DataGridTextColumn Header="Fogyasztás (l/10km)" MinWidth="120" MaxWidth="120" Width="120"  Binding="{ Binding Consumption }"/>
+                            <DataGridTextColumn Header="fuelID" MinWidth="55" MaxWidth="55" Width="55"  Binding="{ Binding FuelID.Type }"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </TabItem>
             <TabItem x:Name="fuel_tab" Header="Fuel price" TabIndex="4">
                 <Grid Background="#FFE5E5E5"/>

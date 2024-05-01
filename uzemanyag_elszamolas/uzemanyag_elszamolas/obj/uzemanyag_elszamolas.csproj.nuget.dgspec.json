@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ASZAF\\uzemanyagos\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj": {}
+    "D:\\Suli\\2023-2024\\Aszaf\\uzemanyagos_cucc\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj": {}
   },
   "projects": {
-    "D:\\ASZAF\\uzemanyagos\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj": {
+    "D:\\Suli\\2023-2024\\Aszaf\\uzemanyagos_cucc\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ASZAF\\uzemanyagos\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
+        "projectUniqueName": "D:\\Suli\\2023-2024\\Aszaf\\uzemanyagos_cucc\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
         "projectName": "uzemanyag_elszamolas",
-        "projectPath": "D:\\ASZAF\\uzemanyagos\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
-        "packagesPath": "C:\\Users\\csokaandras\\.nuget\\packages\\",
-        "outputPath": "D:\\ASZAF\\uzemanyagos\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\obj\\",
+        "projectPath": "D:\\Suli\\2023-2024\\Aszaf\\uzemanyagos_cucc\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
+        "packagesPath": "C:\\Users\\csoka\\.nuget\\packages\\",
+        "outputPath": "D:\\Suli\\2023-2024\\Aszaf\\uzemanyagos_cucc\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\csokaandras\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\csoka\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
