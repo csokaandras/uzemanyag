@@ -64,6 +64,12 @@ namespace uzemanyag_elszamolas
             car_add_btn.IsEnabled = true;
             car_disable_btn.IsEnabled = false;
             car_edit_btn.IsEnabled = false;
+            
+            license_tbox.Text = null;
+            type_tbox.Text = null;
+            consumption_tbox.Text = null;
+            benzin_rdbtn.IsChecked = false;
+            diesel_rdbtn.IsChecked = false;
         }
 
         private void SelectCarsDatas()
@@ -272,11 +278,7 @@ namespace uzemanyag_elszamolas
                     string[] values = { type_tbox.Text, license_tbox.Text, consumption_tbox.Text, fuel_id, "0" };
 
                     db.insert("cars", fields, values);
-                    type_tbox.Text = null;
-                    license_tbox.Text = null;
-                    consumption_tbox.Text = null;
-                    benzin_rdbtn.IsChecked = false;
-                    diesel_rdbtn.IsChecked = false;
+                    SetDefault();
                     fuel_id = "0";
 
                     updateCarsGrid();
@@ -320,15 +322,19 @@ namespace uzemanyag_elszamolas
             {
 
                 CarDataItem selectedItem = (CarDataItem)cars_datagrid.SelectedItem;
-                /*
-                TipusComboBox.Text = selectedItem.Tipus;
-                szamlaField.Text = selectedItem.Szamlaszam;
-                nevField.Text = selectedItem.Nev;
-                datumField.Text = selectedItem.Datum.ToString();
-                nettoField.Text = selectedItem.Netto.ToString();
-                bruttoField.Text = selectedItem.Brutto.ToString();
-                afaField.Text = selectedItem.Afa.ToString();
-                */
+
+                license_tbox.Text = selectedItem.License;
+                type_tbox.Text = selectedItem.Type;
+                consumption_tbox.Text = selectedItem.Consumption.ToString().Replace(",", ".");
+
+                if (selectedItem.FuelID.ID == 1)
+                {
+                    benzin_rdbtn.IsChecked = true;
+                }
+                else
+                {
+                    diesel_rdbtn.IsChecked = true;
+                }
 
                 akt_car_ID = selectedItem.ID;
                 car_add_btn.IsEnabled = false;
@@ -346,6 +352,28 @@ namespace uzemanyag_elszamolas
             {
                 SetDefault();
             }
+        }
+
+        private void car_edit_btn_Click(object sender, RoutedEventArgs e)
+        {
+            CarDataItem akt_car = cars_list.Find(x => x.ID == akt_car_ID);
+            string fuel_id = "0";
+            if (benzin_rdbtn.IsChecked == true)
+            {
+                fuel_id = "1";
+            }
+            else
+            {
+                fuel_id = "2";
+            }
+
+            string[] fields = { "type", "license", "consumption", "fuelID", "enable" };
+            string[] values = { type_tbox.Text, license_tbox.Text, consumption_tbox.Text, fuel_id, "0" };
+
+            db.update("cars", "ID", akt_car.ID.ToString(), fields, values);
+
+            updateCarsGrid();
+            SetDefault();
         }
     }
 }

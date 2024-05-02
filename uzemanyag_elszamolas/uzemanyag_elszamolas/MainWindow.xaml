@@ -59,7 +59,7 @@
                             <RadioButton x:Name="benzin_rdbtn" Content="Benzin" HorizontalAlignment="Left" Margin="130,86,0,0" VerticalAlignment="Top" TabIndex="4"/>
                             <RadioButton x:Name="diesel_rdbtn" Content="Diesel" HorizontalAlignment="Left" Margin="130,106,0,0" VerticalAlignment="Top" TabIndex="5"/>
                             <Button x:Name="car_add_btn" Content="Felvétel" Margin="10,126,190,0" VerticalAlignment="Top" FontWeight="Normal" Click="car_add_btn_Click" TabIndex="6"/>
-                            <Button x:Name="car_edit_btn" Content="Módosít" Margin="100,126,100,0" VerticalAlignment="Top" FontWeight="Normal" TabIndex="7"/>
+                            <Button x:Name="car_edit_btn" Content="Módosít" Margin="100,126,100,0" VerticalAlignment="Top" FontWeight="Normal" TabIndex="7" Click="car_edit_btn_Click"/>
                             <Button x:Name="car_disable_btn" Content="Állapot" Margin="190,126,10,0" VerticalAlignment="Top" FontWeight="Normal" Click="car_disable_btn_Click" TabIndex="8"/>
 
                         </Grid>
