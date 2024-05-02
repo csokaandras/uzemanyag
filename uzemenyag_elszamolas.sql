@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Ápr 24. 08:47
+-- Létrehozás ideje: 2024. Máj 02. 12:56
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -31,9 +31,16 @@ CREATE TABLE `cars` (
   `ID` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
   `license` varchar(10) NOT NULL,
-  `consumption` int(11) NOT NULL,
+  `consumption` float NOT NULL,
   `fuelID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `cars`
+--
+
+INSERT INTO `cars` (`ID`, `type`, `license`, `consumption`, `fuelID`) VALUES
+(4, 'Panzerkanpfwagen', 'KYS-420', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -46,6 +53,14 @@ CREATE TABLE `fuels` (
   `type` varchar(20) NOT NULL,
   `price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `fuels`
+--
+
+INSERT INTO `fuels` (`ID`, `type`, `price`) VALUES
+(1, 'Benzin', 635),
+(2, 'Diesel', 622);
 
 -- --------------------------------------------------------
 
@@ -81,7 +96,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`ID`, `name`, `pass`, `perm`) VALUES
-(1, 'admin', 'admin', 0);
+(1, 'admin', 'admin', 0),
+(2, 'Jani', 'jani', 1),
+(3, 'Áron', 'aron', 1),
+(6, 'asd', 'asd', 1);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -123,13 +141,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `cars`
 --
 ALTER TABLE `cars`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT a táblához `fuels`
 --
 ALTER TABLE `fuels`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT a táblához `routes`
@@ -141,7 +159,7 @@ ALTER TABLE `routes`
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Megkötések a kiírt táblákhoz

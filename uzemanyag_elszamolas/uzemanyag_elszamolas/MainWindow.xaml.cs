@@ -27,6 +27,8 @@ namespace uzemanyag_elszamolas
         List<CarDataItem> cars_list = new List<CarDataItem>();
         List<FuelDataItem> fuels_list = new List<FuelDataItem>();
 
+        static int akt_car_ID = 0;
+
         internal class CarDataItem
         {
             public int ID { get; set; }
@@ -34,6 +36,7 @@ namespace uzemanyag_elszamolas
             public string License { get; set; }
             public double Consumption { get; set; }
             public FuelDataItem FuelID { get; set; }
+            public int Enable { get; set; }
         }
 
         internal class FuelDataItem
@@ -46,12 +49,21 @@ namespace uzemanyag_elszamolas
         public MainWindow()
         {
             InitializeComponent();
+            SetDefault();
 
             statistic_tab.Visibility = Visibility.Hidden;
             fuel_tab.Visibility = Visibility.Hidden;
             cars_tab.Visibility = Visibility.Hidden;
             routes_tab.Visibility = Visibility.Hidden;
 
+        }
+        private void SetDefault()
+        {
+            akt_car_ID = 0;
+            cars_datagrid.SelectedItem = null;
+            car_add_btn.IsEnabled = true;
+            car_disable_btn.IsEnabled = false;
+            car_edit_btn.IsEnabled = false;
         }
 
         private void SelectCarsDatas()
@@ -67,6 +79,7 @@ namespace uzemanyag_elszamolas
                 new_car.License = db.results.GetString("license");
                 new_car.Consumption = Math.Round(db.results.GetFloat("consumption"), 2);
                 new_car.FuelID = fuels_list.Find(x => x.ID == db.results.GetInt32("fuelID"));
+                new_car.Enable = db.results.GetInt16("enable");
 
                 cars_list.Add(new_car);
             }
@@ -255,11 +268,10 @@ namespace uzemanyag_elszamolas
                         fuel_id = "2";
                     }
 
-                    string[] fields = { "type", "license", "consumption", "fuelID" };
-                    string[] values = { type_tbox.Text, license_tbox.Text, consumption_tbox.Text, fuel_id };
+                    string[] fields = { "type", "license", "consumption", "fuelID", "enable" };
+                    string[] values = { type_tbox.Text, license_tbox.Text, consumption_tbox.Text, fuel_id, "0" };
 
                     db.insert("cars", fields, values);
-                    
                     type_tbox.Text = null;
                     license_tbox.Text = null;
                     consumption_tbox.Text = null;
@@ -279,7 +291,61 @@ namespace uzemanyag_elszamolas
                 MessageBox.Show("Nem adott meg minden szükséges adatot!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
+
+        }
+
+        private void car_disable_btn_Click(object sender, RoutedEventArgs e)
+        {
+            CarDataItem akt_car = cars_list.Find(x => x.ID == akt_car_ID);
+            string[] fields = { "enable" };
+
+            if (akt_car.Enable == 0)
+            {
+                akt_car.Enable = 1;
+            }
+            else
+            {
+                akt_car.Enable = 0;
+            }
+            string[] values = { akt_car.Enable.ToString() };
+
+            db.update("cars", "ID", akt_car.ID.ToString(), fields, values);
             
+            updateCarsGrid();
+        }
+
+        private void cars_datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cars_datagrid.SelectedItem != null)
+            {
+
+                CarDataItem selectedItem = (CarDataItem)cars_datagrid.SelectedItem;
+                /*
+                TipusComboBox.Text = selectedItem.Tipus;
+                szamlaField.Text = selectedItem.Szamlaszam;
+                nevField.Text = selectedItem.Nev;
+                datumField.Text = selectedItem.Datum.ToString();
+                nettoField.Text = selectedItem.Netto.ToString();
+                bruttoField.Text = selectedItem.Brutto.ToString();
+                afaField.Text = selectedItem.Afa.ToString();
+                */
+
+                akt_car_ID = selectedItem.ID;
+                car_add_btn.IsEnabled = false;
+                car_disable_btn.IsEnabled = true;
+                car_edit_btn.IsEnabled = true;
+
+
+
+            }
+        }
+
+        private void Grid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                SetDefault();
+            }
         }
     }
 }
