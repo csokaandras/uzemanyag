@@ -26,6 +26,8 @@ namespace uzemanyag_elszamolas
         dbClass db = new dbClass("localhost", "root", "", "uzemenyag_elszamolas");
         List<CarDataItem> cars_list = new List<CarDataItem>();
         List<FuelDataItem> fuels_list = new List<FuelDataItem>();
+        List<RouteDataItem> routes_list = new List<RouteDataItem>();
+        List<UsersClass> users_list = new List<UsersClass>();
 
         static int akt_car_ID = 0;
 
@@ -44,6 +46,17 @@ namespace uzemanyag_elszamolas
             public int ID { get; set; }
             public string Type { get; set; }
             public int Price { get; set; }
+        }
+
+        internal class RouteDataItem
+        {
+            public int ID { get; set; }
+            public string Start { get; set; }
+            public string End { get; set; }
+            public int Km { get; set; }
+            public int Date { get; set; }
+            public UsersClass User { get; set; }
+            public CarDataItem Car { get; set; }
         }
 
         public MainWindow()
@@ -106,6 +119,41 @@ namespace uzemanyag_elszamolas
             }
         }
 
+        private void SelectRoutesDatas(int id, int perm)
+        {
+            routes_list.Clear();
+            if (perm == 0)
+            {
+                SelectUserDatas();
+                db.selectAll("routes");
+                while (db.results.Read())
+                {
+                    RouteDataItem new_route = new RouteDataItem();
+                    new_route.ID = db.results.GetInt32("ID");
+                    new_route.Start = db.results.GetString("start");
+                    new_route.End = db.results.GetString("end");
+                    new_route.Km = db.results.GetInt32("km");
+                    new_route.Date = db.results.GetInt32("date");
+                    new_route.User = users_list.Find(x => x.ID == db.results.GetInt32("userID"));
+                    new_route.Car = cars_list.Find(x => x.ID == db.results.GetInt32("carID"));
+
+                    routes_list.Add(new_route);
+                }
+            }
+            else
+            {
+
+            }
+        }
+        private void SelectUserDatas()
+        {
+            db.selectAll("users");
+            while (db.results.Read())
+            {
+                users_list.Add(new UsersClass(db.results.GetInt32("ID"), db.results.GetString("name"), db.results.GetString("pass"), db.results.GetInt32("perm")));
+            }
+        }
+
         private void to_login_btn_Click(object sender, RoutedEventArgs e)
         {
             reg_grid.Visibility = Visibility.Hidden;
@@ -154,7 +202,7 @@ namespace uzemanyag_elszamolas
 
                     user_name_label.Content = logged_user.Name;
 
-
+                    SelectRoutesDatas(logged_user.ID, logged_user.Perm);
                 }
                 else
                 {
@@ -231,6 +279,10 @@ namespace uzemanyag_elszamolas
                 cars_tab.Visibility = Visibility.Hidden;
                 routes_tab.Visibility = Visibility.Hidden;
 
+                cars_list.Clear();
+                fuels_list.Clear();
+                routes_list.Clear();
+                users_list.Clear();
             }
         }
 
@@ -415,6 +467,11 @@ namespace uzemanyag_elszamolas
             SelectFuelsDatas();
             fuel_price_benzin.Text = fuels_list.Find(x => x.ID == 1).Price.ToString();
             fuel_price_diesel.Text = fuels_list.Find(x => x.ID == 2).Price.ToString();
+        }
+
+        private void routes_tab_Loaded(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

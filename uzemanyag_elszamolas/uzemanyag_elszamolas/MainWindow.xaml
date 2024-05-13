@@ -38,7 +38,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem x:Name="routes_tab" Header="Routes" TabIndex="2">
+            <TabItem x:Name="routes_tab" Header="Routes" TabIndex="2" Loaded="routes_tab_Loaded">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
             <TabItem x:Name="statistic_tab" Header="Statistic" TabIndex="5">
