@@ -217,7 +217,7 @@ namespace uzemanyag_elszamolas
 
         private void logout_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Biztos ki szeretne jelentkezni?", "Kijelentkezés", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Biztosan ki szeretne jelentkezni?", "Kijelentkezés", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
@@ -374,6 +374,47 @@ namespace uzemanyag_elszamolas
 
             updateCarsGrid();
             SetDefault();
+        }
+
+        private void fuel_price_save_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Biztosan módosítja az üzemanyag árakat?", "Üzemanyag árak módosítása.", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                
+                try
+                {
+                    Convert.ToInt32(fuel_price_benzin.Text);
+                    Convert.ToInt32(fuel_price_diesel.Text);
+
+                    string[] fields = { "price" };
+
+                    string[] values_benzin = { fuel_price_benzin.Text };
+                    db.update("fuels", "ID", "1", fields, values_benzin);
+
+                    string[] values_diesel = { fuel_price_diesel.Text };
+                    db.update("fuels", "ID", "2", fields, values_diesel);
+
+                    updateFuelPrice();
+                }
+                catch (System.FormatException)
+                {
+                    MessageBox.Show("Nem jó formátumban adta meg az adatokat!\nKérem egész számra kerekítve adja meg!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        private void fuel_tab_Loaded(object sender, RoutedEventArgs e)
+        {
+            updateFuelPrice();
+        }
+
+        private void updateFuelPrice()
+        {
+            SelectFuelsDatas();
+            fuel_price_benzin.Text = fuels_list.Find(x => x.ID == 1).Price.ToString();
+            fuel_price_diesel.Text = fuels_list.Find(x => x.ID == 2).Price.ToString();
         }
     }
 }

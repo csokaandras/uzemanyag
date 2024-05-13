@@ -87,8 +87,16 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="fuel_tab" Header="Fuel price" TabIndex="4">
-                <Grid Background="#FFE5E5E5"/>
+            <TabItem x:Name="fuel_tab" Header="Fuel price" TabIndex="4" Loaded="fuel_tab_Loaded">
+                <Grid Background="#FFE5E5E5">
+                    <Grid VerticalAlignment="Center" Height="106" HorizontalAlignment="Center" Width="159">
+                        <Label Content="Benzin" HorizontalAlignment="Left" Margin="17,17,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Diesel" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center"/>
+                        <TextBox x:Name="fuel_price_benzin" HorizontalAlignment="Left" Margin="67,21,0,0" TextWrapping="Wrap" Width="72" Height="18" VerticalAlignment="Top"/>
+                        <TextBox x:Name="fuel_price_diesel" HorizontalAlignment="Left" Margin="67,45,0,0" TextWrapping="Wrap" Width="72" Height="18" VerticalAlignment="Top"/>
+                        <Button x:Name="fuel_price_save" Content="Mentés" HorizontalAlignment="Left" Margin="60,71,0,0" VerticalAlignment="Top" Click="fuel_price_save_Click"/>
+                    </Grid>
+                </Grid>
             </TabItem>
         </TabControl>
 
