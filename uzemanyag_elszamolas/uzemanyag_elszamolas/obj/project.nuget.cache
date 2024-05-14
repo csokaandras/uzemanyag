@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cN/lrohhPm2Tuj7aBNhlke5Az8W+vcP+qH/6u8E4a2nz3h/oxyK7by0MjfZUmHOj9ARAmWV5BrmysSFfF3D9dw==",
+  "dgSpecHash": "MWzNNGfwydSI6upcpMGvbJu66/ZCFVo9nl4vXPe3MmmJqx//EUTDkb0oT2SwLhu+2f8hbyJoDIlmA5r0Ipe0SA==",
   "success": true,
-  "projectFilePath": "D:\\ASZAF\\uzemanyagos\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
+  "projectFilePath": "D:\\ASZAF\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\csokaandras\\.nuget\\packages\\bouncycastle.cryptography\\2.2.1\\bouncycastle.cryptography.2.2.1.nupkg.sha512",
     "C:\\Users\\csokaandras\\.nuget\\packages\\google.protobuf\\3.25.1\\google.protobuf.3.25.1.nupkg.sha512",

@@ -1,13 +1,14 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
+﻿-- phpMyAdmin SQL Dump
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Máj 02. 12:56
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- Létrehozás ideje: 2024. Máj 14. 08:42
+-- Kiszolgáló verziója: 10.4.6-MariaDB
+-- PHP verzió: 7.3.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -29,18 +30,19 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cars` (
   `ID` int(11) NOT NULL,
-  `type` varchar(50) NOT NULL,
-  `license` varchar(10) NOT NULL,
+  `type` varchar(50) COLLATE utf8_hungarian_ci NOT NULL,
+  `license` varchar(10) COLLATE utf8_hungarian_ci NOT NULL,
   `consumption` float NOT NULL,
-  `fuelID` int(11) NOT NULL
+  `fuelID` int(11) NOT NULL,
+  `enable` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `cars`
 --
 
-INSERT INTO `cars` (`ID`, `type`, `license`, `consumption`, `fuelID`) VALUES
-(4, 'Panzerkanpfwagen', 'KYS-420', 2, 2);
+INSERT INTO `cars` (`ID`, `type`, `license`, `consumption`, `fuelID`, `enable`) VALUES
+(4, 'Panzerkanpfwagen', 'KYS-420', 2, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -50,7 +52,7 @@ INSERT INTO `cars` (`ID`, `type`, `license`, `consumption`, `fuelID`) VALUES
 
 CREATE TABLE `fuels` (
   `ID` int(11) NOT NULL,
-  `type` varchar(20) NOT NULL,
+  `type` varchar(20) COLLATE utf8_hungarian_ci NOT NULL,
   `price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
@@ -70,8 +72,8 @@ INSERT INTO `fuels` (`ID`, `type`, `price`) VALUES
 
 CREATE TABLE `routes` (
   `ID` int(11) NOT NULL,
-  `start` varchar(50) NOT NULL,
-  `end` varchar(50) NOT NULL,
+  `start` varchar(50) COLLATE utf8_hungarian_ci NOT NULL,
+  `end` varchar(50) COLLATE utf8_hungarian_ci NOT NULL,
   `km` int(11) NOT NULL,
   `date` date NOT NULL,
   `userID` int(11) NOT NULL,
@@ -86,8 +88,8 @@ CREATE TABLE `routes` (
 
 CREATE TABLE `users` (
   `ID` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `pass` varchar(100) NOT NULL,
+  `name` varchar(50) COLLATE utf8_hungarian_ci NOT NULL,
+  `pass` varchar(100) COLLATE utf8_hungarian_ci NOT NULL,
   `perm` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 

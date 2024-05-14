@@ -54,13 +54,14 @@ namespace uzemanyag_elszamolas
             public string Start { get; set; }
             public string End { get; set; }
             public int Km { get; set; }
-            public int Date { get; set; }
+            public string Date { get; set; }
             public UsersClass User { get; set; }
             public CarDataItem Car { get; set; }
         }
 
         public MainWindow()
         {
+
             InitializeComponent();
             SetDefault();
 
@@ -133,7 +134,7 @@ namespace uzemanyag_elszamolas
                     new_route.Start = db.results.GetString("start");
                     new_route.End = db.results.GetString("end");
                     new_route.Km = db.results.GetInt32("km");
-                    new_route.Date = db.results.GetInt32("date");
+                    new_route.Date = db.results.GetDateTime("date").ToString("yyyy-MM-dd");
                     new_route.User = users_list.Find(x => x.ID == db.results.GetInt32("userID"));
                     new_route.Car = cars_list.Find(x => x.ID == db.results.GetInt32("carID"));
 
@@ -142,7 +143,20 @@ namespace uzemanyag_elszamolas
             }
             else
             {
+                db.select("routes", "userID", logged_user.ID.ToString());
+                while (db.results.Read())
+                {
+                    RouteDataItem new_route = new RouteDataItem();
+                    new_route.ID = db.results.GetInt32("ID");
+                    new_route.Start = db.results.GetString("start");
+                    new_route.End = db.results.GetString("end");
+                    new_route.Km = db.results.GetInt32("km");
+                    new_route.Date = db.results.GetDateTime("date").ToString("yyyy-MM-dd");
+                    new_route.User = logged_user;
+                    new_route.Car = cars_list.Find(x => x.ID == db.results.GetInt32("carID"));
 
+                    routes_list.Add(new_route);
+                }
             }
         }
         private void SelectUserDatas()
@@ -203,6 +217,7 @@ namespace uzemanyag_elszamolas
                     user_name_label.Content = logged_user.Name;
 
                     SelectRoutesDatas(logged_user.ID, logged_user.Perm);
+                    updateRoutesGrid();
                 }
                 else
                 {
@@ -215,6 +230,16 @@ namespace uzemanyag_elszamolas
                 MessageBox.Show("Nincsen iyen felhasználó!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
                 login_name_tbox.Text = null;
                 login_passwd_tbox.Password = null;
+            }
+        }
+
+        private void updateRoutesGrid()
+        {
+            routes_datagrid.Items.Clear();
+            foreach (RouteDataItem item in routes_list)
+            {
+                routes_datagrid.Items.Add(item);
+                MessageBox.Show(item.User.Name);
             }
         }
 
@@ -454,6 +479,10 @@ namespace uzemanyag_elszamolas
                 {
                     MessageBox.Show("Nem jó formátumban adta meg az adatokat!\nKérem egész számra kerekítve adja meg!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+            else
+            {
+                updateFuelPrice();
             }
         }
 

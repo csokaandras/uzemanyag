@@ -39,7 +39,24 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="routes_tab" Header="Routes" TabIndex="2" Loaded="routes_tab_Loaded">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <GroupBox Header="Útvonal felvétele" HorizontalAlignment="Left" Height="247" Margin="10,10,0,0" VerticalAlignment="Top" Width="279">
+                        <Grid>
+                            <Label Content="Label" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </GroupBox>
+                    <DataGrid x:Name="routes_datagrid" Margin="294,10,10,9" ColumnWidth="*" HeadersVisibility="Column">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Width="40" MinWidth="40" MaxWidth="40" Binding="{ Binding ID }"/>
+                            <DataGridTextColumn Header="Felhasználó" Width="100" MinWidth="100" MaxWidth="100" Binding="{ Binding User.Name }"/>
+                            <DataGridTextColumn Header="Indulási hely" MinWidth="80" Binding="{ Binding Start }"/>
+                            <DataGridTextColumn Header="Úticél" MinWidth="100" Binding="{ Binding End }"/>
+                            <DataGridTextColumn Header="Km" Width="40" MinWidth="40" MaxWidth="40" Binding="{ Binding Km }"/>
+                            <DataGridTextColumn Header="Dátum" Width="80" MinWidth="80" MaxWidth="80" Binding="{ Binding Date }"/>
+                            <DataGridTextColumn Header="Jármű" MinWidth="120" Binding="{ Binding Car.Type }"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </TabItem>
             <TabItem x:Name="statistic_tab" Header="Statistic" TabIndex="5">
                 <Grid Background="#FFE5E5E5"/>
