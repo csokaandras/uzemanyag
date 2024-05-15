@@ -22,12 +22,12 @@ namespace uzemanyag_elszamolas
     public partial class MainWindow : Window
     {
 
-        UsersClass logged_user = null;
+        UserDataItem logged_user = null;
         dbClass db = new dbClass("localhost", "root", "", "uzemenyag_elszamolas");
         List<CarDataItem> cars_list = new List<CarDataItem>();
         List<FuelDataItem> fuels_list = new List<FuelDataItem>();
         List<RouteDataItem> routes_list = new List<RouteDataItem>();
-        List<UsersClass> users_list = new List<UsersClass>();
+        List<UserDataItem> users_list = new List<UserDataItem>();
 
         static int akt_car_ID = 0;
 
@@ -55,8 +55,16 @@ namespace uzemanyag_elszamolas
             public string End { get; set; }
             public int Km { get; set; }
             public string Date { get; set; }
-            public UsersClass User { get; set; }
+            public UserDataItem User { get; set; }
             public CarDataItem Car { get; set; }
+        }
+
+        internal class UserDataItem
+        {
+            public int ID { get; set; }
+            public string Name { get; set; }
+            public string Password { get; set; }
+            public int Perm { get; set; }
         }
 
         public MainWindow()
@@ -64,6 +72,12 @@ namespace uzemanyag_elszamolas
 
             InitializeComponent();
             SetDefault();
+            updateCarsGrid();
+            updateFuelPrice();
+            uodateRoutesCars();
+
+            string aktdate = DateTime.Today.ToString("yyyy-MM-dd");
+            routes_date_dtp.Text = aktdate;
 
             statistic_tab.Visibility = Visibility.Hidden;
             fuel_tab.Visibility = Visibility.Hidden;
@@ -164,7 +178,14 @@ namespace uzemanyag_elszamolas
             db.selectAll("users");
             while (db.results.Read())
             {
-                users_list.Add(new UsersClass(db.results.GetInt32("ID"), db.results.GetString("name"), db.results.GetString("pass"), db.results.GetInt32("perm")));
+                UserDataItem new_user = new UserDataItem();
+
+                new_user.ID = db.results.GetInt32("ID");
+                new_user.Name = db.results.GetString("name");
+                new_user.Password = db.results.GetString("pass");
+                new_user.Perm = db.results.GetInt32("perm");
+
+                users_list.Add(new_user);
             }
         }
 
@@ -204,7 +225,11 @@ namespace uzemanyag_elszamolas
                     login_name_tbox.Text = null;
                     login_passwd_tbox.Password = null;
 
-                    logged_user = new UsersClass(id, name, pass, perm);
+                    logged_user = new UserDataItem();
+                    logged_user.ID = id;
+                    logged_user.Name = name;
+                    logged_user.Password = pass;
+                    logged_user.Perm = perm;
 
                     if (logged_user.Perm == 0)
                     {
@@ -236,10 +261,10 @@ namespace uzemanyag_elszamolas
         private void updateRoutesGrid()
         {
             routes_datagrid.Items.Clear();
+            SelectRoutesDatas(logged_user.ID, logged_user.Perm);
             foreach (RouteDataItem item in routes_list)
             {
                 routes_datagrid.Items.Add(item);
-                MessageBox.Show(item.User.Name);
             }
         }
 
@@ -322,11 +347,6 @@ namespace uzemanyag_elszamolas
             }
         }
 
-        private void cars_tab_Loaded(object sender, RoutedEventArgs e)
-        {
-            updateCarsGrid();
-        }
-
         private void car_add_btn_Click(object sender, RoutedEventArgs e)
         {
             Regex rgx = new Regex(@"^\d+(\.\d+)*$");
@@ -341,24 +361,32 @@ namespace uzemanyag_elszamolas
             {
                 if (rgx.IsMatch(consumption_tbox.Text))
                 {
-                    string fuel_id = "0";
-                    if (benzin_rdbtn.IsChecked == true)
+                    db.select("cars", "license", license_tbox.Text);
+                    if (!db.results.Read())
                     {
-                        fuel_id = "1";
+                        string fuel_id = "0";
+                        if (benzin_rdbtn.IsChecked == true)
+                        {
+                            fuel_id = "1";
+                        }
+                        else
+                        {
+                            fuel_id = "2";
+                        }
+
+                        string[] fields = { "type", "license", "consumption", "fuelID", "enable" };
+                        string[] values = { type_tbox.Text, license_tbox.Text, consumption_tbox.Text, fuel_id, "0" };
+
+                        db.insert("cars", fields, values);
+                        SetDefault();
+                        fuel_id = "0";
+
+                        updateCarsGrid();
                     }
                     else
                     {
-                        fuel_id = "2";
+                        MessageBox.Show("Ez a rendszám már használatban van!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-
-                    string[] fields = { "type", "license", "consumption", "fuelID", "enable" };
-                    string[] values = { type_tbox.Text, license_tbox.Text, consumption_tbox.Text, fuel_id, "0" };
-
-                    db.insert("cars", fields, values);
-                    SetDefault();
-                    fuel_id = "0";
-
-                    updateCarsGrid();
                 }
                 else
                 {
@@ -445,7 +473,7 @@ namespace uzemanyag_elszamolas
             }
 
             string[] fields = { "type", "license", "consumption", "fuelID", "enable" };
-            string[] values = { type_tbox.Text, license_tbox.Text, consumption_tbox.Text, fuel_id, "0" };
+            string[] values = { type_tbox.Text, license_tbox.Text, consumption_tbox.Text, fuel_id, akt_car.Enable.ToString() };
 
             db.update("cars", "ID", akt_car.ID.ToString(), fields, values);
 
@@ -475,7 +503,7 @@ namespace uzemanyag_elszamolas
 
                     updateFuelPrice();
                 }
-                catch (System.FormatException)
+                catch (FormatException)
                 {
                     MessageBox.Show("Nem jó formátumban adta meg az adatokat!\nKérem egész számra kerekítve adja meg!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -486,11 +514,6 @@ namespace uzemanyag_elszamolas
             }
         }
 
-        private void fuel_tab_Loaded(object sender, RoutedEventArgs e)
-        {
-            updateFuelPrice();
-        }
-
         private void updateFuelPrice()
         {
             SelectFuelsDatas();
@@ -498,8 +521,57 @@ namespace uzemanyag_elszamolas
             fuel_price_diesel.Text = fuels_list.Find(x => x.ID == 2).Price.ToString();
         }
 
-        private void routes_tab_Loaded(object sender, RoutedEventArgs e)
+        private void uodateRoutesCars()
         {
+            for (int i = 0; i < cars_list.Count; i++)
+            {
+                if (cars_list[i].Enable == 0)
+                {
+                    ComboBoxItem item = new ComboBoxItem();
+                    item.Content = $"{cars_list[i].License} - {cars_list[i].Type}";
+                    routes_cars_ddown.Items.Add(item);
+                }
+            }
+        }
+
+        private void routes_add_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (routes_start_tbox.Text != null
+                && routes_end_tbox.Text != null
+                && routes_km_tbox != null
+                && routes_cars_ddown.SelectedItem != null
+                && routes_start_tbox.Text != ""
+                && routes_end_tbox.Text != ""
+                && routes_km_tbox.Text != ""
+                && routes_date_dtp.Text != "")
+            {
+                try
+                {
+                    Convert.ToInt32(routes_km_tbox.Text);
+                    string start = routes_start_tbox.Text;
+                    string end = routes_end_tbox.Text;
+                    string km = routes_km_tbox.Text;
+                    string date = Convert.ToDateTime(routes_date_dtp.Text).ToString("yyyy-MM-dd");
+                    string userID = logged_user.ID.ToString();
+                    string carID = cars_list.Find(x => x.License == routes_cars_ddown.SelectionBoxItem.ToString().Split(" ")[0]).ID.ToString();
+
+                    string[] fields = { "start", "end", "km", "date", "userID", "carID" };
+                    string[] values = { start, end, km, date, userID, carID };
+
+                    db.insert("routes", fields, values);
+
+                    updateRoutesGrid();
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("A kilóméternek egész számnak kell lennie!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nem adott meg minden szükséges adatot!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
             
         }
     }
