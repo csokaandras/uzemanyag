@@ -53,7 +53,7 @@
                             <TextBox x:Name="routes_start_tbox" HorizontalAlignment="Left" Margin="118,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TabIndex="1"/>
                             <Button x:Name="routes_add_btn" Content="Felvétel" HorizontalAlignment="Left" Margin="21,166,0,0" VerticalAlignment="Top" Click="routes_add_btn_Click" TabIndex="6"/>
                             <ComboBox x:Name="routes_cars_ddown" HorizontalAlignment="Left" Margin="118,132,0,0" VerticalAlignment="Top" Width="120" TabIndex="5"/>
-                            <Button Content="Törlés" HorizontalAlignment="Left" Margin="203,166,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+                            <Button x:Name="routes_delete_btn" Content="Törlés" HorizontalAlignment="Left" Margin="203,166,0,0" VerticalAlignment="Top" Click="routes_delete_btn_Click"/>
                         </Grid>
                     </GroupBox>
                     <DataGrid x:Name="routes_datagrid" Margin="294,10,10,9" ColumnWidth="*" HeadersVisibility="Column" SelectionChanged="routes_datagrid_SelectionChanged">

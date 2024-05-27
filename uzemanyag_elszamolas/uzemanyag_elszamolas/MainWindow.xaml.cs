@@ -75,7 +75,6 @@ namespace uzemanyag_elszamolas
             SetDefault();
             updateCarsGrid();
             updateFuelPrice();
-            uodateRoutesCars();
 
             string aktdate = DateTime.Today.ToString("yyyy-MM-dd");
             routes_date_dtp.Text = aktdate;
@@ -346,6 +345,7 @@ namespace uzemanyag_elszamolas
             {
                 cars_datagrid.Items.Add(item);
             }
+            updateRoutesCars();
         }
 
         private void car_add_btn_Click(object sender, RoutedEventArgs e)
@@ -519,7 +519,7 @@ namespace uzemanyag_elszamolas
             fuel_price_diesel.Text = fuels_list.Find(x => x.ID == 2).Price.ToString();
         }
 
-        private void uodateRoutesCars()
+        private void updateRoutesCars()
         {
             for (int i = 0; i < cars_list.Count; i++)
             {
@@ -573,20 +573,26 @@ namespace uzemanyag_elszamolas
             
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void routes_datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (routes_datagrid.SelectedItem != null)
             {
 
                 RouteDataItem selectedItem = (RouteDataItem)routes_datagrid.SelectedItem;
-                
 
+                routes_start_tbox.Text = selectedItem.Start;
+                routes_end_tbox.Text = selectedItem.End;
+                routes_km_tbox.Text = selectedItem.Km.ToString();
+                routes_date_dtp.Text = selectedItem.Date;
+                routes_cars_ddown.SelectedIndex = routes_cars_ddown.FindName($"{selectedItem.Car.License} - {selectedItem.Car.Type}");
+
+                akt_route_ID = selectedItem.ID;
             }
+        }
+
+        private void routes_delete_btn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Nem nyerőő");
         }
     }
 }
