@@ -30,6 +30,7 @@ namespace uzemanyag_elszamolas
         List<UserDataItem> users_list = new List<UserDataItem>();
 
         static int akt_car_ID = 0;
+        static int akt_route_ID = 0;
 
         internal class CarDataItem
         {
@@ -445,9 +446,6 @@ namespace uzemanyag_elszamolas
                 car_add_btn.IsEnabled = false;
                 car_disable_btn.IsEnabled = true;
                 car_edit_btn.IsEnabled = true;
-
-
-
             }
         }
 
@@ -573,6 +571,22 @@ namespace uzemanyag_elszamolas
             }
 
             
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void routes_datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (routes_datagrid.SelectedItem != null)
+            {
+
+                RouteDataItem selectedItem = (RouteDataItem)routes_datagrid.SelectedItem;
+                
+
+            }
         }
     }
 }

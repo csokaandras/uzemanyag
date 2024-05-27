@@ -40,22 +40,23 @@
             </TabItem>
             <TabItem x:Name="routes_tab" Header="Routes" TabIndex="2">
                 <Grid Background="#FFE5E5E5">
-                    <GroupBox Header="Útvonal felvétele" HorizontalAlignment="Left" Height="247" Margin="10,10,0,0" VerticalAlignment="Top" Width="279">
+                    <GroupBox Header="Útvonal felvétele" HorizontalAlignment="Left" Height="215" Margin="10,10,0,0" VerticalAlignment="Top" Width="279">
                         <Grid>
                             <Label Content="Indulási hely" HorizontalAlignment="Left" Margin="37,6,0,0" VerticalAlignment="Top"/>
                             <Label Content="Úticél" HorizontalAlignment="Left" Margin="73,37,0,0" VerticalAlignment="Top"/>
                             <Label Content="Kilóméter" HorizontalAlignment="Left" Margin="52,68,0,0" VerticalAlignment="Top"/>
-                            <Label Content="Dátum" HorizontalAlignment="Left" Margin="68,0,0,0" VerticalAlignment="Center"/>
+                            <Label Content="Dátum" HorizontalAlignment="Left" Margin="68,97,0,0" VerticalAlignment="Top"/>
                             <Label Content="Jármű" HorizontalAlignment="Left" Margin="72,130,0,0" VerticalAlignment="Top"/>
-                            <DatePicker x:Name="routes_date_dtp" HorizontalAlignment="Left" Margin="118,0,0,0" VerticalAlignment="Center" Width="120" DisplayDate="2024-05-15"/>
-                            <TextBox x:Name="routes_km_tbox" HorizontalAlignment="Left" Margin="118,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                            <TextBox x:Name="routes_end_tbox" HorizontalAlignment="Left" Margin="118,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                            <TextBox x:Name="routes_start_tbox" HorizontalAlignment="Left" Margin="118,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                            <Button x:Name="routes_add_btn" Content="Felvétel" HorizontalAlignment="Left" Margin="21,166,0,0" VerticalAlignment="Top" Click="routes_add_btn_Click"/>
-                            <ComboBox x:Name="routes_cars_ddown" HorizontalAlignment="Left" Margin="118,132,0,0" VerticalAlignment="Top" Width="120"/>
+                            <DatePicker x:Name="routes_date_dtp" HorizontalAlignment="Left" Margin="118,98,0,0" VerticalAlignment="Top" Width="120" DisplayDate="2024-05-15" TabIndex="4"/>
+                            <TextBox x:Name="routes_km_tbox" HorizontalAlignment="Left" Margin="118,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TabIndex="3"/>
+                            <TextBox x:Name="routes_end_tbox" HorizontalAlignment="Left" Margin="118,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TabIndex="2"/>
+                            <TextBox x:Name="routes_start_tbox" HorizontalAlignment="Left" Margin="118,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TabIndex="1"/>
+                            <Button x:Name="routes_add_btn" Content="Felvétel" HorizontalAlignment="Left" Margin="21,166,0,0" VerticalAlignment="Top" Click="routes_add_btn_Click" TabIndex="6"/>
+                            <ComboBox x:Name="routes_cars_ddown" HorizontalAlignment="Left" Margin="118,132,0,0" VerticalAlignment="Top" Width="120" TabIndex="5"/>
+                            <Button Content="Törlés" HorizontalAlignment="Left" Margin="203,166,0,0" VerticalAlignment="Top" Click="Button_Click"/>
                         </Grid>
                     </GroupBox>
-                    <DataGrid x:Name="routes_datagrid" Margin="294,10,10,9" ColumnWidth="*" HeadersVisibility="Column">
+                    <DataGrid x:Name="routes_datagrid" Margin="294,10,10,9" ColumnWidth="*" HeadersVisibility="Column" SelectionChanged="routes_datagrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Width="40" MinWidth="40" MaxWidth="40" Binding="{ Binding ID }"/>
                             <DataGridTextColumn Header="Felhasználó" Width="100" MinWidth="100" MaxWidth="100" Binding="{ Binding User.Name }"/>

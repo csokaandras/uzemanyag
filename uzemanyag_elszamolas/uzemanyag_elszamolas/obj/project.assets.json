@@ -1829,19 +1829,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\csoka\\.nuget\\packages\\": {}
+    "C:\\Users\\csokaandras\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Suli\\2023-2024\\Aszaf\\uzemanyagos_cucc\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
+      "projectUniqueName": "D:\\ASZAF\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
       "projectName": "uzemanyag_elszamolas",
-      "projectPath": "D:\\Suli\\2023-2024\\Aszaf\\uzemanyagos_cucc\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
-      "packagesPath": "C:\\Users\\csoka\\.nuget\\packages\\",
-      "outputPath": "D:\\Suli\\2023-2024\\Aszaf\\uzemanyagos_cucc\\uzemanyag\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\obj\\",
+      "projectPath": "D:\\ASZAF\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\uzemanyag_elszamolas.csproj",
+      "packagesPath": "C:\\Users\\csokaandras\\.nuget\\packages\\",
+      "outputPath": "D:\\ASZAF\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\csoka\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\csokaandras\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
