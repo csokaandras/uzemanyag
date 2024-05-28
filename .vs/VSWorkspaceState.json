@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\uzemanyag_elszamolas",
+    "\\uzemanyag_elszamolas\\uzemanyag_elszamolas"
   ],
-  "SelectedNode": "\\uzemanyag_elszamolas.sln",
+  "SelectedNode": "\\uzemanyag_elszamolas\\uzemanyag_elszamolas\\MainWindow.xaml.cs",
   "PreviewInSolutionExplorer": false
 }

@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         
         mc:Ignorable="d"
-        Title="Üzemanyag elszámolás" Height="442" Width="837">
+        Title="Üzemanyag elszámolás" Height="587" Width="974">
     <Grid>
         <TabControl HorizontalAlignment="Stretch" FlowDirection="LeftToRight">
             <TabItem Header="User" TabIndex="1">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFE5E5E5" KeyDown="Grid_KeyDown">
 
                     <Grid x:Name="login_grid" Height="193" VerticalAlignment="Center" HorizontalAlignment="Center" Width="287" Visibility="Visible">
                         <PasswordBox x:Name="login_passwd_tbox" HorizontalAlignment="Left" Margin="137,0,0,0" VerticalAlignment="Center" Width="120" TabIndex="2"/>
@@ -39,24 +39,24 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="routes_tab" Header="Routes" TabIndex="2">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFE5E5E5" KeyDown="Grid_KeyDown">
                     <GroupBox Header="Útvonal felvétele" HorizontalAlignment="Left" Height="215" Margin="10,10,0,0" VerticalAlignment="Top" Width="279">
                         <Grid>
-                            <Label Content="Indulási hely" HorizontalAlignment="Left" Margin="37,6,0,0" VerticalAlignment="Top"/>
-                            <Label Content="Úticél" HorizontalAlignment="Left" Margin="73,37,0,0" VerticalAlignment="Top"/>
-                            <Label Content="Kilóméter" HorizontalAlignment="Left" Margin="52,68,0,0" VerticalAlignment="Top"/>
-                            <Label Content="Dátum" HorizontalAlignment="Left" Margin="68,97,0,0" VerticalAlignment="Top"/>
-                            <Label Content="Jármű" HorizontalAlignment="Left" Margin="72,130,0,0" VerticalAlignment="Top"/>
-                            <DatePicker x:Name="routes_date_dtp" HorizontalAlignment="Left" Margin="118,98,0,0" VerticalAlignment="Top" Width="120" DisplayDate="2024-05-15" TabIndex="4"/>
-                            <TextBox x:Name="routes_km_tbox" HorizontalAlignment="Left" Margin="118,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TabIndex="3"/>
-                            <TextBox x:Name="routes_end_tbox" HorizontalAlignment="Left" Margin="118,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TabIndex="2"/>
-                            <TextBox x:Name="routes_start_tbox" HorizontalAlignment="Left" Margin="118,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TabIndex="1"/>
-                            <Button x:Name="routes_add_btn" Content="Felvétel" HorizontalAlignment="Left" Margin="21,166,0,0" VerticalAlignment="Top" Click="routes_add_btn_Click" TabIndex="6"/>
-                            <ComboBox x:Name="routes_cars_ddown" HorizontalAlignment="Left" Margin="118,132,0,0" VerticalAlignment="Top" Width="120" TabIndex="5"/>
-                            <Button x:Name="routes_delete_btn" Content="Törlés" HorizontalAlignment="Left" Margin="203,166,0,0" VerticalAlignment="Top" Click="routes_delete_btn_Click"/>
+                            <Label Content="Indulási hely" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Úticél" HorizontalAlignment="Left" Margin="46,37,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Kilóméter" HorizontalAlignment="Left" Margin="25,68,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Dátum" HorizontalAlignment="Left" Margin="41,97,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Jármű" HorizontalAlignment="Left" Margin="45,130,0,0" VerticalAlignment="Top"/>
+                            <DatePicker x:Name="routes_date_dtp" HorizontalAlignment="Left" Margin="92,98,0,0" VerticalAlignment="Top" Width="165" DisplayDate="2024-05-15" TabIndex="4"/>
+                            <TextBox x:Name="routes_km_tbox" HorizontalAlignment="Left" Margin="92,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" TabIndex="3"/>
+                            <TextBox x:Name="routes_end_tbox" HorizontalAlignment="Left" Margin="92,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" TabIndex="2"/>
+                            <TextBox x:Name="routes_start_tbox" HorizontalAlignment="Left" Margin="92,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165" TabIndex="1"/>
+                            <Button x:Name="routes_add_btn" Content="Felvétel" HorizontalAlignment="Left" Margin="10,166,0,0" VerticalAlignment="Top" Click="routes_add_btn_Click" TabIndex="6"/>
+                            <ComboBox x:Name="routes_cars_ddown" HorizontalAlignment="Left" Margin="92,132,0,0" VerticalAlignment="Top" Width="165" TabIndex="5"/>
+                            <Button x:Name="routes_delete_btn" Content="Törlés" HorizontalAlignment="Left" Margin="222,166,0,0" VerticalAlignment="Top" Click="routes_delete_btn_Click"/>
                         </Grid>
                     </GroupBox>
-                    <DataGrid x:Name="routes_datagrid" Margin="294,10,10,9" ColumnWidth="*" HeadersVisibility="Column" SelectionChanged="routes_datagrid_SelectionChanged">
+                    <DataGrid x:Name="routes_datagrid" Margin="294,10,10,10" ColumnWidth="*" HeadersVisibility="Column" SelectionChanged="routes_datagrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Width="40" MinWidth="40" MaxWidth="40" Binding="{ Binding ID }"/>
                             <DataGridTextColumn Header="Felhasználó" Width="100" MinWidth="100" MaxWidth="100" Binding="{ Binding User.Name }"/>
@@ -65,12 +65,19 @@
                             <DataGridTextColumn Header="Km" Width="40" MinWidth="40" MaxWidth="40" Binding="{ Binding Km }"/>
                             <DataGridTextColumn Header="Dátum" Width="80" MinWidth="80" MaxWidth="80" Binding="{ Binding Date }"/>
                             <DataGridTextColumn Header="Jármű" MinWidth="120" Binding="{ Binding Car.Type }"/>
+                            <DataGridTextColumn Header="Összeg" Width="80" Binding="{ Binding Osszeg }"/>
                         </DataGrid.Columns>
                     </DataGrid>
+                    <GroupBox Header="Összesítés" HorizontalAlignment="Left" Height="175" Margin="10,230,0,0" VerticalAlignment="Top" Width="279">
+                        <Grid>
+                            <Label Content="Összes km:" HorizontalAlignment="Left" Margin="43,10,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Összes fizetendő:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </GroupBox>
                 </Grid>
             </TabItem>
             <TabItem x:Name="statistic_tab" Header="Statistic" TabIndex="5">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5" KeyDown="Grid_KeyDown"/>
             </TabItem>
             <TabItem x:Name="cars_tab" Header="Cars" TabIndex="3">
                 <Grid Background="#FFE5E5E5" KeyDown="Grid_KeyDown">
@@ -116,7 +123,7 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="fuel_tab" Header="Fuel price" TabIndex="4">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="#FFE5E5E5" KeyDown="Grid_KeyDown">
                     <Grid VerticalAlignment="Center" Height="106" HorizontalAlignment="Center" Width="159">
                         <Label Content="Benzin" HorizontalAlignment="Left" Margin="17,17,0,0" VerticalAlignment="Top"/>
                         <Label Content="Diesel" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Center"/>

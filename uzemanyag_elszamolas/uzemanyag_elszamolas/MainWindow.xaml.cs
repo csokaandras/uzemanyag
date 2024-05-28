@@ -21,7 +21,7 @@ namespace uzemanyag_elszamolas
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        static string aktdate = DateTime.Today.ToString("yyyy-MM-dd");
         UserDataItem logged_user = null;
         dbClass db = new dbClass("localhost", "root", "", "uzemenyag_elszamolas");
         List<CarDataItem> cars_list = new List<CarDataItem>();
@@ -58,6 +58,7 @@ namespace uzemanyag_elszamolas
             public string Date { get; set; }
             public UserDataItem User { get; set; }
             public CarDataItem Car { get; set; }
+            public double Osszeg { get; set; }
         }
 
         internal class UserDataItem
@@ -76,7 +77,7 @@ namespace uzemanyag_elszamolas
             updateCarsGrid();
             updateFuelPrice();
 
-            string aktdate = DateTime.Today.ToString("yyyy-MM-dd");
+            
             routes_date_dtp.Text = aktdate;
 
             statistic_tab.Visibility = Visibility.Hidden;
@@ -98,6 +99,13 @@ namespace uzemanyag_elszamolas
             consumption_tbox.Text = null;
             benzin_rdbtn.IsChecked = false;
             diesel_rdbtn.IsChecked = false;
+
+            routes_start_tbox.Text = null;
+            routes_end_tbox.Text = null;
+            routes_km_tbox.Text = null;
+            routes_date_dtp.Text = aktdate;
+            updateRoutesCars();
+
         }
 
         private void SelectCarsDatas()
@@ -151,6 +159,7 @@ namespace uzemanyag_elszamolas
                     new_route.Date = db.results.GetDateTime("date").ToString("yyyy-MM-dd");
                     new_route.User = users_list.Find(x => x.ID == db.results.GetInt32("userID"));
                     new_route.Car = cars_list.Find(x => x.ID == db.results.GetInt32("carID"));
+                    new_route.Osszeg = Math.Round(new_route.Car.FuelID.Price * new_route.Km * (new_route.Car.Consumption * 0.1), 2);
 
                     routes_list.Add(new_route);
                 }
@@ -168,6 +177,7 @@ namespace uzemanyag_elszamolas
                     new_route.Date = db.results.GetDateTime("date").ToString("yyyy-MM-dd");
                     new_route.User = logged_user;
                     new_route.Car = cars_list.Find(x => x.ID == db.results.GetInt32("carID"));
+                    new_route.Osszeg = Math.Round(new_route.Car.FuelID.Price * new_route.Km * (new_route.Car.Consumption * 0.1), 2);
 
                     routes_list.Add(new_route);
                 }
@@ -333,6 +343,8 @@ namespace uzemanyag_elszamolas
                 fuels_list.Clear();
                 routes_list.Clear();
                 users_list.Clear();
+
+                SetDefault();
             }
         }
 
@@ -521,6 +533,7 @@ namespace uzemanyag_elszamolas
 
         private void updateRoutesCars()
         {
+            routes_cars_ddown.Items.Clear();
             for (int i = 0; i < cars_list.Count; i++)
             {
                 if (cars_list[i].Enable == 0)
@@ -559,6 +572,7 @@ namespace uzemanyag_elszamolas
                     db.insert("routes", fields, values);
 
                     updateRoutesGrid();
+                    SetDefault();
                 }
                 catch (FormatException)
                 {
@@ -584,7 +598,7 @@ namespace uzemanyag_elszamolas
                 routes_end_tbox.Text = selectedItem.End;
                 routes_km_tbox.Text = selectedItem.Km.ToString();
                 routes_date_dtp.Text = selectedItem.Date;
-                routes_cars_ddown.SelectedIndex = routes_cars_ddown.FindName($"{selectedItem.Car.License} - {selectedItem.Car.Type}");
+                //routes_cars_ddown.SelectedIndex = routes_cars_ddown.Find($"{selectedItem.Car.License} - {selectedItem.Car.Type}");
 
                 akt_route_ID = selectedItem.ID;
             }
@@ -592,7 +606,8 @@ namespace uzemanyag_elszamolas
 
         private void routes_delete_btn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Nem nyerőő");
+            db.delete("routes", "ID", akt_route_ID.ToString());
+            updateRoutesGrid();
         }
     }
 }

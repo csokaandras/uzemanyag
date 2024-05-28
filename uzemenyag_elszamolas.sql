@@ -1,14 +1,13 @@
 ﻿-- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Máj 14. 08:42
--- Kiszolgáló verziója: 10.4.6-MariaDB
--- PHP verzió: 7.3.8
+-- Létrehozás ideje: 2024. Máj 28. 08:49
+-- Kiszolgáló verziója: 10.4.32-MariaDB
+-- PHP verzió: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -30,8 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `cars` (
   `ID` int(11) NOT NULL,
-  `type` varchar(50) COLLATE utf8_hungarian_ci NOT NULL,
-  `license` varchar(10) COLLATE utf8_hungarian_ci NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `license` varchar(10) NOT NULL,
   `consumption` float NOT NULL,
   `fuelID` int(11) NOT NULL,
   `enable` tinyint(1) NOT NULL
@@ -42,7 +41,12 @@ CREATE TABLE `cars` (
 --
 
 INSERT INTO `cars` (`ID`, `type`, `license`, `consumption`, `fuelID`, `enable`) VALUES
-(4, 'Panzerkanpfwagen', 'KYS-420', 2, 2, 0);
+(4, 'Panzerkampfwagen I', 'KYS-420', 2, 2, 0),
+(5, 'Königstiger', 'NZI-001', 3.5, 2, 1),
+(6, 'PzKpfw V Panther', 'PZW-256', 2.5, 1, 0),
+(7, 'Leichttraktor', 'PZW-531', 1.8, 2, 1),
+(8, 'Neubaufahrzeug', 'PZW-967', 5, 1, 0),
+(9, 'Panzer VII Löwe', 'PZW-542', 0.9, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -52,7 +56,7 @@ INSERT INTO `cars` (`ID`, `type`, `license`, `consumption`, `fuelID`, `enable`) 
 
 CREATE TABLE `fuels` (
   `ID` int(11) NOT NULL,
-  `type` varchar(20) COLLATE utf8_hungarian_ci NOT NULL,
+  `type` varchar(20) NOT NULL,
   `price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
@@ -72,13 +76,22 @@ INSERT INTO `fuels` (`ID`, `type`, `price`) VALUES
 
 CREATE TABLE `routes` (
   `ID` int(11) NOT NULL,
-  `start` varchar(50) COLLATE utf8_hungarian_ci NOT NULL,
-  `end` varchar(50) COLLATE utf8_hungarian_ci NOT NULL,
+  `start` varchar(50) NOT NULL,
+  `end` varchar(50) NOT NULL,
   `km` int(11) NOT NULL,
   `date` date NOT NULL,
   `userID` int(11) NOT NULL,
   `carID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
+
+--
+-- A tábla adatainak kiíratása `routes`
+--
+
+INSERT INTO `routes` (`ID`, `start`, `end`, `km`, `date`, `userID`, `carID`) VALUES
+(1, 'Innen', 'Oda', 35, '2024-05-28', 2, 5),
+(2, 'Áronkától', 'Janihoz', 100, '2024-05-27', 2, 7),
+(3, 'Janitól', 'Jani apjához', 5, '2024-05-27', 3, 8);
 
 -- --------------------------------------------------------
 
@@ -88,8 +101,8 @@ CREATE TABLE `routes` (
 
 CREATE TABLE `users` (
   `ID` int(11) NOT NULL,
-  `name` varchar(50) COLLATE utf8_hungarian_ci NOT NULL,
-  `pass` varchar(100) COLLATE utf8_hungarian_ci NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `pass` varchar(100) NOT NULL,
   `perm` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci;
 
@@ -143,7 +156,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `cars`
 --
 ALTER TABLE `cars`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT a táblához `fuels`
@@ -155,7 +168,7 @@ ALTER TABLE `fuels`
 -- AUTO_INCREMENT a táblához `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `users`
