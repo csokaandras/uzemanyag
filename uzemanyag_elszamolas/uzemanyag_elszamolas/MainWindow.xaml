@@ -68,10 +68,12 @@
                             <DataGridTextColumn Header="Összeg" Width="80" Binding="{ Binding Osszeg }"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <GroupBox Header="Összesítés" HorizontalAlignment="Left" Height="175" Margin="10,230,0,0" VerticalAlignment="Top" Width="279">
+                    <GroupBox Header="Összesítés" HorizontalAlignment="Left" Height="104" Margin="10,230,0,0" VerticalAlignment="Top" Width="279">
                         <Grid>
                             <Label Content="Összes km:" HorizontalAlignment="Left" Margin="43,10,0,0" VerticalAlignment="Top"/>
                             <Label Content="Összes fizetendő:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="routes_osszkm_tbox" HorizontalAlignment="Left" Margin="116,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="141" IsReadOnly="True"/>
+                            <TextBox x:Name="routes_osszfiz_tbox" HorizontalAlignment="Left" Margin="117,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="140" IsReadOnly="True"/>
                         </Grid>
                     </GroupBox>
                 </Grid>

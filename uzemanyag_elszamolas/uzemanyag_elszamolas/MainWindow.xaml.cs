@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -74,10 +75,8 @@ namespace uzemanyag_elszamolas
 
             InitializeComponent();
             SetDefault();
-            updateCarsGrid();
-            updateFuelPrice();
+            SelectCarsDatas();
 
-            
             routes_date_dtp.Text = aktdate;
 
             statistic_tab.Visibility = Visibility.Hidden;
@@ -100,12 +99,15 @@ namespace uzemanyag_elszamolas
             benzin_rdbtn.IsChecked = false;
             diesel_rdbtn.IsChecked = false;
 
+            akt_route_ID = 0;
+            routes_datagrid.SelectedItem = null;
             routes_start_tbox.Text = null;
             routes_end_tbox.Text = null;
             routes_km_tbox.Text = null;
             routes_date_dtp.Text = aktdate;
-            updateRoutesCars();
 
+            
+            updateRoutesCars();
         }
 
         private void SelectCarsDatas()
@@ -147,6 +149,7 @@ namespace uzemanyag_elszamolas
             routes_list.Clear();
             if (perm == 0)
             {
+
                 SelectUserDatas();
                 db.selectAll("routes");
                 while (db.results.Read())
@@ -175,7 +178,7 @@ namespace uzemanyag_elszamolas
                     new_route.End = db.results.GetString("end");
                     new_route.Km = db.results.GetInt32("km");
                     new_route.Date = db.results.GetDateTime("date").ToString("yyyy-MM-dd");
-                    new_route.User = logged_user;
+                    new_route.User = users_list.Find(x => x.ID == db.results.GetInt32("userID"));
                     new_route.Car = cars_list.Find(x => x.ID == db.results.GetInt32("carID"));
                     new_route.Osszeg = Math.Round(new_route.Car.FuelID.Price * new_route.Km * (new_route.Car.Consumption * 0.1), 2);
 
@@ -252,6 +255,8 @@ namespace uzemanyag_elszamolas
                     user_name_label.Content = logged_user.Name;
 
                     SelectRoutesDatas(logged_user.ID, logged_user.Perm);
+                    updateCarsGrid();
+                    updateFuelPrice();
                     updateRoutesGrid();
                 }
                 else
@@ -276,6 +281,7 @@ namespace uzemanyag_elszamolas
             {
                 routes_datagrid.Items.Add(item);
             }
+            updateRoutesStat();
         }
 
         private void reg_btn_Click(object sender, RoutedEventArgs e)
@@ -339,10 +345,7 @@ namespace uzemanyag_elszamolas
                 cars_tab.Visibility = Visibility.Hidden;
                 routes_tab.Visibility = Visibility.Hidden;
 
-                cars_list.Clear();
-                fuels_list.Clear();
                 routes_list.Clear();
-                users_list.Clear();
 
                 SetDefault();
             }
@@ -358,6 +361,22 @@ namespace uzemanyag_elszamolas
                 cars_datagrid.Items.Add(item);
             }
             updateRoutesCars();
+            updateRoutesGrid();
+        }
+
+        private void updateRoutesStat()
+        {
+            int ossz_km = 0;
+            double ossz_fiz = 0;
+
+            foreach (RouteDataItem item in routes_list)
+            {
+                ossz_km += item.Km;
+                ossz_fiz += item.Osszeg;
+            }
+
+            routes_osszkm_tbox.Text = $"{ossz_km} Km";
+            routes_osszfiz_tbox.Text = ossz_fiz.ToString("### ### Ft");
         }
 
         private void car_add_btn_Click(object sender, RoutedEventArgs e)
@@ -529,6 +548,7 @@ namespace uzemanyag_elszamolas
             SelectFuelsDatas();
             fuel_price_benzin.Text = fuels_list.Find(x => x.ID == 1).Price.ToString();
             fuel_price_diesel.Text = fuels_list.Find(x => x.ID == 2).Price.ToString();
+            updateCarsGrid();
         }
 
         private void updateRoutesCars()
