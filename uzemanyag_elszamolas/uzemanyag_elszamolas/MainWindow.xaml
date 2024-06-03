@@ -79,7 +79,18 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="statistic_tab" Header="Statistic" TabIndex="5">
-                <Grid Background="#FFE5E5E5" KeyDown="Grid_KeyDown"/>
+                <Grid Background="#FFE5E5E5" KeyDown="Grid_KeyDown">
+                    <TreeView>
+                        <TreeViewItem Header="Level 1" IsExpanded="True">
+                            <TreeViewItem Header="Level 2.1" />
+                            <TreeViewItem Header="Level 2.2" IsExpanded="True">
+                                <TreeViewItem Header="Level 3.1" />
+                                <TreeViewItem Header="Level 3.2" />
+                            </TreeViewItem>
+                            <TreeViewItem Header="Level 2.3" />
+                        </TreeViewItem>
+                    </TreeView>
+                </Grid>
             </TabItem>
             <TabItem x:Name="cars_tab" Header="Cars" TabIndex="3">
                 <Grid Background="#FFE5E5E5" KeyDown="Grid_KeyDown">

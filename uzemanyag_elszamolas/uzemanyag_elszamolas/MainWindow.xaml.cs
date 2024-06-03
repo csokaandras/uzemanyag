@@ -30,8 +30,19 @@ namespace uzemanyag_elszamolas
         List<RouteDataItem> routes_list = new List<RouteDataItem>();
         List<UserDataItem> users_list = new List<UserDataItem>();
 
+        List<StatDataItem> stats_list = new List<StatDataItem>();
+
         static int akt_car_ID = 0;
         static int akt_route_ID = 0;
+
+        internal class StatDataItem
+        {
+            public int Year { get; set; }
+            public int Month { get; set; }
+            public int Day { get; set; }
+            public double Price { get; set; }
+            public int Km { get; set; }
+        }
 
         internal class CarDataItem
         {
@@ -165,6 +176,15 @@ namespace uzemanyag_elszamolas
                     new_route.Osszeg = Math.Round(new_route.Car.FuelID.Price * new_route.Km * (new_route.Car.Consumption * 0.1), 2);
 
                     routes_list.Add(new_route);
+
+                    StatDataItem new_stat = new StatDataItem();
+                    new_stat.Year = db.results.GetDateTime("date").Year;
+                    new_stat.Month = db.results.GetDateTime("date").Month;
+                    new_stat.Day = db.results.GetDateTime("date").Day;
+                    new_stat.Price = new_route.Osszeg;
+                    new_stat.Km = db.results.GetInt32("km");
+
+                    stats_list.Add(new_stat);
                 }
             }
             else
