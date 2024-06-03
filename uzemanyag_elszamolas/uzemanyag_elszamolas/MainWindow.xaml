@@ -80,7 +80,7 @@
             </TabItem>
             <TabItem x:Name="statistic_tab" Header="Statistic" TabIndex="5">
                 <Grid Background="#FFE5E5E5" KeyDown="Grid_KeyDown">
-                    <TreeView>
+                    <TreeView x:Name="stat_tree" Background="{x:Null}">
                         <TreeViewItem Header="Level 1" IsExpanded="True">
                             <TreeViewItem Header="Level 2.1" />
                             <TreeViewItem Header="Level 2.2" IsExpanded="True">

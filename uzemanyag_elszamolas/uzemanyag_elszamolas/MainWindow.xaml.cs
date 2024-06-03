@@ -23,6 +23,7 @@ namespace uzemanyag_elszamolas
     public partial class MainWindow : Window
     {
         static string aktdate = DateTime.Today.ToString("yyyy-MM-dd");
+        static int km_price = 100;
         UserDataItem logged_user = null;
         dbClass db = new dbClass("localhost", "root", "", "uzemenyag_elszamolas");
         List<CarDataItem> cars_list = new List<CarDataItem>();
@@ -37,6 +38,7 @@ namespace uzemanyag_elszamolas
 
         internal class StatDataItem
         {
+            public UserDataItem User { get; set; }
             public int Year { get; set; }
             public int Month { get; set; }
             public int Day { get; set; }
@@ -79,6 +81,29 @@ namespace uzemanyag_elszamolas
             public string Name { get; set; }
             public string Password { get; set; }
             public int Perm { get; set; }
+        }
+
+        internal class YearDataItem
+        {
+            public int Year { get; set; }
+            public List<MonthDataItem> Months { get; set; }
+            public int Km { get; set; }
+            public double Osszeg { get; set; }
+        }
+
+        internal class MonthDataItem
+        {
+            public int Month { get; set; }
+            public List<DayDataItem> Days { get; set; }
+            public int Km { get; set; }
+            public double Osszeg { get; set; }
+        }
+
+        internal class DayDataItem
+        {
+            public int Day { get; set; }
+            public int Km { get; set; }
+            public double Osszeg { get; set; }
         }
 
         public MainWindow()
@@ -155,12 +180,11 @@ namespace uzemanyag_elszamolas
             }
         }
 
-        private void SelectRoutesDatas(int id, int perm)
+        private void SelectRoutesDatas(int perm)
         {
             routes_list.Clear();
             if (perm == 0)
             {
-
                 SelectUserDatas();
                 db.selectAll("routes");
                 while (db.results.Read())
@@ -173,11 +197,12 @@ namespace uzemanyag_elszamolas
                     new_route.Date = db.results.GetDateTime("date").ToString("yyyy-MM-dd");
                     new_route.User = users_list.Find(x => x.ID == db.results.GetInt32("userID"));
                     new_route.Car = cars_list.Find(x => x.ID == db.results.GetInt32("carID"));
-                    new_route.Osszeg = Math.Round(new_route.Car.FuelID.Price * new_route.Km * (new_route.Car.Consumption * 0.1), 2);
+                    new_route.Osszeg = Math.Round(new_route.Car.FuelID.Price * new_route.Km * (new_route.Car.Consumption * 0.1) + (new_route.Km * km_price), 2);
 
                     routes_list.Add(new_route);
 
                     StatDataItem new_stat = new StatDataItem();
+                    new_stat.User = users_list.Find(x => x.ID == db.results.GetInt32("userID"));
                     new_stat.Year = db.results.GetDateTime("date").Year;
                     new_stat.Month = db.results.GetDateTime("date").Month;
                     new_stat.Day = db.results.GetDateTime("date").Day;
@@ -200,12 +225,23 @@ namespace uzemanyag_elszamolas
                     new_route.Date = db.results.GetDateTime("date").ToString("yyyy-MM-dd");
                     new_route.User = users_list.Find(x => x.ID == db.results.GetInt32("userID"));
                     new_route.Car = cars_list.Find(x => x.ID == db.results.GetInt32("carID"));
-                    new_route.Osszeg = Math.Round(new_route.Car.FuelID.Price * new_route.Km * (new_route.Car.Consumption * 0.1), 2);
+                    new_route.Osszeg = Math.Round(new_route.Car.FuelID.Price * new_route.Km * (new_route.Car.Consumption * 0.1) + (new_route.Km * km_price), 2);
 
                     routes_list.Add(new_route);
+
+                    StatDataItem new_stat = new StatDataItem();
+                    new_stat.User = users_list.Find(x => x.ID == db.results.GetInt32("userID"));
+                    new_stat.Year = db.results.GetDateTime("date").Year;
+                    new_stat.Month = db.results.GetDateTime("date").Month;
+                    new_stat.Day = db.results.GetDateTime("date").Day;
+                    new_stat.Price = new_route.Osszeg;
+                    new_stat.Km = db.results.GetInt32("km");
+
+                    stats_list.Add(new_stat);
                 }
             }
         }
+
         private void SelectUserDatas()
         {
             db.selectAll("users");
@@ -274,7 +310,7 @@ namespace uzemanyag_elszamolas
 
                     user_name_label.Content = logged_user.Name;
 
-                    SelectRoutesDatas(logged_user.ID, logged_user.Perm);
+                    SelectRoutesDatas(logged_user.Perm);
                     updateCarsGrid();
                     updateFuelPrice();
                     updateRoutesGrid();
@@ -296,12 +332,73 @@ namespace uzemanyag_elszamolas
         private void updateRoutesGrid()
         {
             routes_datagrid.Items.Clear();
-            SelectRoutesDatas(logged_user.ID, logged_user.Perm);
+            SelectRoutesDatas(logged_user.Perm);
             foreach (RouteDataItem item in routes_list)
             {
                 routes_datagrid.Items.Add(item);
             }
+            updateStatTreeView();
             updateRoutesStat();
+        }
+
+        private void updateStatTreeView()
+        {
+            List<YearDataItem> years = new List<YearDataItem>();
+
+            foreach (StatDataItem item in stats_list)
+            {
+                YearDataItem akt_year = years.Find(x => x.Year == item.Year);
+                if (akt_year == null)
+                {
+                    YearDataItem new_year = new YearDataItem();
+                    new_year.Year = item.Year;
+                    new_year.Months = new List<MonthDataItem>();
+                    new_year.Km = item.Km;
+                    new_year.Osszeg = item.Price;
+
+                    MonthDataItem akt_month = new_year.Months.Find(x => x.Month == item.Month);
+                    if (akt_month == null)
+                    {
+                        MonthDataItem new_month = new MonthDataItem();
+                        new_month.Month = item.Month;
+                        new_month.Days = new List<DayDataItem>();
+                        new_month.Km = item.Km;
+                        new_month.Osszeg = item.Price;
+
+                        DayDataItem akt_day = new_month.Days.Find(x => x.Day == item.Day);
+                        if (akt_day == null)
+                        {
+                            DayDataItem new_day = new DayDataItem();
+                            new_day.Day = item.Day;
+                            new_day.Km = item.Km;
+                            new_day.Osszeg = item.Price;
+
+                            new_month.Days.Add(new_day);
+                        }
+                        else
+                        {
+                            akt_day.Km += item.Km;
+                            akt_day.Osszeg += item.Price;
+                        }
+                        new_year.Months.Add(new_month);
+                    }
+                    else
+                    {
+                        akt_month.Km += item.Km;
+                        akt_month.Osszeg += item.Price;
+                    }
+                    years.Add(new_year);
+                }
+                else
+                {
+                    akt_year.Km += item.Km;
+                    akt_year.Osszeg += item.Price;
+                }
+            }
+
+
+            stat_tree.Items.Clear();
+            stat_tree.Items.Add(new TreeViewItem() { Header = "Fasz" });
         }
 
         private void reg_btn_Click(object sender, RoutedEventArgs e)
