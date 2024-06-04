@@ -32,6 +32,7 @@ namespace uzemanyag_elszamolas
         List<UserDataItem> users_list = new List<UserDataItem>();
 
         List<StatDataItem> stats_list = new List<StatDataItem>();
+        static List<YearDataItem> years = new List<YearDataItem>();
 
         static int akt_car_ID = 0;
         static int akt_route_ID = 0;
@@ -183,6 +184,7 @@ namespace uzemanyag_elszamolas
         private void SelectRoutesDatas(int perm)
         {
             routes_list.Clear();
+            stats_list.Clear();
             if (perm == 0)
             {
                 SelectUserDatas();
@@ -341,10 +343,10 @@ namespace uzemanyag_elszamolas
             updateRoutesStat();
         }
 
+        
         private void updateStatTreeView()
         {
-            List<YearDataItem> years = new List<YearDataItem>();
-
+            years.Clear();
             foreach (StatDataItem item in stats_list)
             {
                 YearDataItem akt_year = years.Find(x => x.Year == item.Year);
@@ -375,30 +377,107 @@ namespace uzemanyag_elszamolas
 
                             new_month.Days.Add(new_day);
                         }
-                        else
-                        {
-                            akt_day.Km += item.Km;
-                            akt_day.Osszeg += item.Price;
-                        }
+                        akt_day = null;
                         new_year.Months.Add(new_month);
                     }
-                    else
-                    {
-                        akt_month.Km += item.Km;
-                        akt_month.Osszeg += item.Price;
-                    }
+                    akt_month = null;
                     years.Add(new_year);
                 }
                 else
                 {
+                    MonthDataItem akt_month = akt_year.Months.Find(x => x.Month == item.Month);
+                    if (akt_month == null)
+                    {
+                        MonthDataItem new_month = new MonthDataItem();
+                        new_month.Month = item.Month;
+                        new_month.Days = new List<DayDataItem>();
+                        new_month.Km = item.Km;
+                        new_month.Osszeg = item.Price;
+
+                        DayDataItem akt_day = new_month.Days.Find(x => x.Day == item.Day);
+                        if (akt_day == null)
+                        {
+                            DayDataItem new_day = new DayDataItem();
+                            new_day.Day = item.Day;
+                            new_day.Km = item.Km;
+                            new_day.Osszeg = item.Price;
+
+                            new_month.Days.Add(new_day);
+                        }
+                        else
+                        {
+                            akt_day.Km += item.Km;
+                            akt_day.Osszeg += item.Price;
+                            
+                        }
+                        akt_day = null;
+                        akt_year.Months.Add(new_month);
+                    }
+                    else
+                    {
+                        DayDataItem akt_day = akt_month.Days.Find(x => x.Day == item.Day);
+                        if (akt_day == null)
+                        {
+                            DayDataItem new_day = new DayDataItem();
+                            new_day.Day = item.Day;
+                            new_day.Km = item.Km;
+                            new_day.Osszeg = item.Price;
+
+                            akt_month.Days.Add(new_day);
+                        }
+                        else
+                        {
+                            akt_day.Km += item.Km;
+                            akt_day.Osszeg += item.Price;
+
+                        }
+                        akt_day = null;
+
+                        akt_month.Km += item.Km;
+                        akt_month.Osszeg += item.Price;
+                    }
+                    akt_month = null;
+
                     akt_year.Km += item.Km;
                     akt_year.Osszeg += item.Price;
                 }
+                akt_year = null;
             }
-
-
+            
+            List<YearDataItem> SortedYears = years.OrderBy(o => o.Year).ToList();
+            foreach (YearDataItem year in SortedYears)
+            {
+                List<MonthDataItem> SoertedMonths = year.Months.OrderBy(o => o.Month).ToList();
+                year.Months = SoertedMonths;
+                foreach (MonthDataItem month in year.Months)
+                {
+                    List<DayDataItem> SoertedDays = month.Days.OrderBy(o => o.Day).ToList();
+                    month.Days = SoertedDays;
+                }
+            }
+            years = SortedYears;
+            
             stat_tree.Items.Clear();
-            stat_tree.Items.Add(new TreeViewItem() { Header = "Fasz" });
+            foreach (YearDataItem year in years)
+            {
+                TreeViewItem year_branch = new TreeViewItem() { Header = $"{year.Year} - {year.Km}Km {year.Osszeg} zseton" };
+                stat_tree.Items.Add(year_branch);
+
+                foreach (MonthDataItem month in year.Months)
+                {
+                    TreeViewItem month_branch = new TreeViewItem() { Header = $"{month.Month} - {month.Km}Km {month.Osszeg} zseton" };
+                    year_branch.Items.Add(month_branch);
+
+                    foreach (DayDataItem day in month.Days)
+                    {
+                        TreeViewItem day_branch = new TreeViewItem() { Header = $"{day.Day} - {day.Km}Km {day.Osszeg} zseton" };
+                        month_branch.Items.Add(day_branch);
+                    }
+                }
+            }
+            
+
+
         }
 
         private void reg_btn_Click(object sender, RoutedEventArgs e)
