@@ -225,7 +225,7 @@ namespace uzemanyag_elszamolas
                     new_route.End = db.results.GetString("end");
                     new_route.Km = db.results.GetInt32("km");
                     new_route.Date = db.results.GetDateTime("date").ToString("yyyy-MM-dd");
-                    new_route.User = users_list.Find(x => x.ID == db.results.GetInt32("userID"));
+                    new_route.User = logged_user;
                     new_route.Car = cars_list.Find(x => x.ID == db.results.GetInt32("carID"));
                     new_route.Osszeg = Math.Round(new_route.Car.FuelID.Price * new_route.Km * (new_route.Car.Consumption * 0.1) + (new_route.Km * km_price), 2);
 
