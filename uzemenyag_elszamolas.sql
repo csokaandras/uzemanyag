@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2024. Máj 28. 08:49
--- Kiszolgáló verziója: 10.4.32-MariaDB
--- PHP verzió: 8.2.12
+-- Létrehozás ideje: 2024. Jún 04. 17:12
+-- Kiszolgáló verziója: 10.4.28-MariaDB
+-- PHP verzió: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -42,10 +42,10 @@ CREATE TABLE `cars` (
 
 INSERT INTO `cars` (`ID`, `type`, `license`, `consumption`, `fuelID`, `enable`) VALUES
 (4, 'Panzerkampfwagen I', 'KYS-420', 2, 2, 0),
-(5, 'Königstiger', 'NZI-001', 3.5, 2, 1),
-(6, 'PzKpfw V Panther', 'PZW-256', 2.5, 1, 0),
-(7, 'Leichttraktor', 'PZW-531', 1.8, 2, 1),
-(8, 'Neubaufahrzeug', 'PZW-967', 5, 1, 0),
+(5, 'Königstiger', 'NZI-001', 3.5, 2, 0),
+(6, 'PzKpfw V Panther', 'PZW-256', 2.5, 1, 1),
+(7, 'Leichttraktor', 'PZW-531', 1.8, 2, 0),
+(8, 'Neubaufahrzeug', 'PZW-967', 5, 1, 1),
 (9, 'Panzer VII Löwe', 'PZW-542', 0.9, 1, 0);
 
 -- --------------------------------------------------------
@@ -91,7 +91,11 @@ CREATE TABLE `routes` (
 INSERT INTO `routes` (`ID`, `start`, `end`, `km`, `date`, `userID`, `carID`) VALUES
 (1, 'Innen', 'Oda', 35, '2024-05-28', 2, 5),
 (2, 'Áronkától', 'Janihoz', 100, '2024-05-27', 2, 7),
-(3, 'Janitól', 'Jani apjához', 5, '2024-05-27', 3, 8);
+(3, 'Janitól', 'Jani apjához', 5, '2024-05-27', 3, 8),
+(4, 'Susu', 'Haza', 85, '2024-04-04', 2, 6),
+(5, 'Bótbó', 'Mamához', 40, '2024-06-04', 2, 9),
+(6, 'Bótbó', 'Mamához', 10, '2024-06-04', 2, 8),
+(7, 'Janitól', 'Fagyizni', 8, '2023-06-07', 3, 6);
 
 -- --------------------------------------------------------
 
@@ -168,7 +172,7 @@ ALTER TABLE `fuels`
 -- AUTO_INCREMENT a táblához `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `users`
